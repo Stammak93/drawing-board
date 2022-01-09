@@ -1,0 +1,49 @@
+body {
+    background-color: black;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+}
+
+
+div.container {
+    background-color: black;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.something-else {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 150px;
+}
+
+
+div.sketch-container {
+    height: 900px;
+    width: 1200px;
+}
+
+
+canvas.sketch {
+    background-color: white;
+    width: 1200px;
+    height: 900px;
+    display: flex;
+}
+
+
+.toolbar-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 250px;
+}
