@@ -1,19 +1,19 @@
-// console.log(sketchboardOffsetLeft)
-// console.log(sketchboardOffsetTop)
-// console.log(window.innerWidth)
-// console.log(window.innerHeight)
-// console.log(sketchboard.clientWidth)
-// console.log(sketchboard.clientHeight)
-// console.log(sketchboard.width)
-// console.log(sketchboard.height)
+let sketchboard = document.querySelector("canvas.sketch")
+let colourChange = document.querySelector("#colour")
+let lineWidth = document.querySelector("#line-width")
 
 
-let colourChange = document.querySelector("#colour").addEventListener("change", (e) => {
+
+// ##################################################
+// Toolbar stuff
+
+
+colourChange.addEventListener("change", (e) => {
     ctx.strokeStyle = e.target.value
 })
 
 
-let lineWidth = document.querySelector("#line-width").addEventListener("change", (e) => {
+lineWidth.addEventListener("change", (e) => {
     if (e.target.value > 15) {
         e.target.value = 15
     }
@@ -53,9 +53,9 @@ document.querySelector("#paste-btn").addEventListener("click", (e) => {
 
 
 //################################################################
+// Sketchboard stuff
 
 
-let sketchboard = document.querySelector("canvas.sketch")
 let ctx = sketchboard.getContext("2d")
 sketchboardOffsetLeft = sketchboard.offsetLeft
 sketchboardOffsetTop = sketchboard.offsetTop
