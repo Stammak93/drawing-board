@@ -1,4 +1,4 @@
-let sketchboard = document.querySelector("canvas.sketch")
+
 let colourChange = document.querySelector("#colour")
 let lineWidth = document.querySelector("#line-width")
 
@@ -31,16 +31,10 @@ document.querySelector("#clear-canvas").addEventListener("click", (e) => {
 })
 
 
-const checkImageUrl = async (url) => {
-    const response = await fetch(url)
-    if (response.ok) {
-        return true
-    }
-}
-
-const checkImageFormat = (imageLink, formatList) => {
+const checkImageFormat = (imageLink) => {
     
     let counter = 0
+    let formatList = ["jpeg","svg","png","tiff","gif","bmp"]
     
     for(let i=0; i < 5; i++) {
         if(imageLink.match(/\w+$/)[0] === formatList[i]) {
@@ -55,45 +49,51 @@ const checkImageFormat = (imageLink, formatList) => {
     }
 }
 
-document.querySelector("#paste-btn").addEventListener("click", (e) => {
-    
-    let validFormatList = ["jpg","svg","png","tiff","gif","bmp"]
-    let srcLink = document.querySelector("#paste-input").value
-    let maxWidth;
-    let maxHeight;
+// A beast of a function!
 
-    let counter = checkImageFormat(srcLink,validFormatList)
-    let websiteLink = async () => await checkImageUrl(srcLink)
-
+document.querySelector("#load-btn").addEventListener("click", (e) => {
     
-    // checking if link is valid image or if text contains valid image format
-    if (counter === 1 || websiteLink) {
-        
-        let image = new Image()
-        image.onload = function(){
-            if (image.width > 0) {
-                
-                // checking whether the image is larger than canvas
-                // and then drawing to canvas accordingly
-                if (image.width < sketchboard.width) {
-                    maxWidth = image.width
-                } else {
-                    maxWidth = sketchboard.width
-                }
-
-                if (image.height < sketchboard.height) {
-                    maxHeight = image.height
-                } else {
-                    maxHeight = sketchboard.height
-                }
-                console.log(maxHeight, maxWidth)
-                ctx.drawImage(image,Math.floor((sketchboard.width - image.width)/2),Math.floor((sketchboard.height - image.height)/2), maxWidth, maxHeight)
-            }
-        }
-        image.src = srcLink
-    
+    if (document.querySelector("#load-input").files[0] === undefined) {
+        return;
     } else {
-        alert("It appears that the link does not contain a valid image format.")    
+    
+        let imageType = document.querySelector("#load-input").files[0].type
+        let imageFile = document.querySelector("#load-input").files[0]
+        let maxWidth;
+        let maxHeight;
+        
+        let counter = checkImageFormat(imageType)
+        // clear canvas
+        ctx.clearRect(0, 0, sketchboard.width, sketchboard.height)
+
+        if (counter === 1){
+            let reader = new FileReader()
+            reader.onload = function(imageFile) {
+                let image = new Image()
+                image.onload = function(){
+                    // checking whether the image is larger than canvas
+                    // and then drawing to canvas accordingly
+                    if (image.width < sketchboard.width) {
+                        maxWidth = image.width
+                    } else {
+                        maxWidth = sketchboard.width
+                    }
+
+                    if (image.height < sketchboard.height) {
+                        maxHeight = image.height
+                    } else {
+                        maxHeight = sketchboard.height
+                    }
+                    console.log(maxWidth, maxHeight)
+                    ctx.drawImage(image,Math.floor((sketchboard.width - maxWidth)/2),Math.floor((sketchboard.height - maxHeight)/2), maxWidth, maxHeight)
+                    }
+                    image.src = imageFile.target.result
+                }
+                reader.readAsDataURL(imageFile)
+                document.querySelector("#load-input").value = ""
+        } else {
+            alert("Sorry, that file format isn't supported.")
+        }
     }
 })
 
@@ -101,7 +101,7 @@ document.querySelector("#paste-btn").addEventListener("click", (e) => {
 //################################################################
 // Sketchboard stuff
 
-
+let sketchboard = document.querySelector("canvas.sketch")
 let ctx = sketchboard.getContext("2d")
 
 sketchboard.width = sketchboard.clientWidth
@@ -129,13 +129,14 @@ const sketching = (e) => {
     ctx.stroke()
 }
 
+
 sketchboard.addEventListener("mousedown", (e) =>{
-    sketchboard.offsetLeft
-    sketchboard.offsetTop
+    
     isSketching = true
     startX = e.clientX;
     startY = e.clientY;
 })
+
 
 sketchboard.addEventListener("mouseup", (e) => {
     isSketching = false
@@ -143,17 +144,16 @@ sketchboard.addEventListener("mouseup", (e) => {
     ctx.beginPath()
 })
 
+
 sketchboard.addEventListener("mousemove", sketching)
 
 
 // ##################################################
 // Canvas image manipulation stuff
 
-//let image = document.querySelector("canvas.sketch")
-
 const imageManipulation = (data) => {
-    for (let i=0; i < data.length; i++) {
-        data[i] = 255
+    for (let i=0; i < data.length; i+= 2) {
+        data[i] = 150
     }
 }
 
@@ -168,3 +168,21 @@ const imageEffect = () => {
 
 document.querySelector("#image-effect").addEventListener("click", imageEffect)
 
+// ########################################
+// Something Else stuff
+
+
+const downloadCanvasImage = (data, filename="untitled.jpg") => {
+    let aTag = document.createElement("a")
+    aTag.href = data
+    aTag.download = filename
+    document.body.appendChild(aTag)
+    aTag.click()
+}
+
+
+document.querySelector("button#save-as").addEventListener("click", (e) => {
+    
+    let data = sketchboard.toDataURL("image/jpg",1)
+    downloadCanvasImage(data)
+})
