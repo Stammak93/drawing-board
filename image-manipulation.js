@@ -29,7 +29,7 @@ const blackAndOther = (data) => {
 
 
 const fishnetFilter = (data) => {
-    for (let i=0; i < data.length; i += 12) {
+    for (let i=0; i < data.length; i += 20) {
         data[i] = Math.floor(Math.random()*256)
         data[i+1] = Math.floor(Math.random()*256)
         data[i+2] = Math.floor(Math.random()*256)

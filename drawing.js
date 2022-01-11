@@ -36,6 +36,13 @@ lineWidth.addEventListener("change", (e) => {
 
 document.querySelector("#clear-canvas").addEventListener("click", (e) => {
     ctx.clearRect(0, 0, sketchboard.width, sketchboard.height)
+    sketchboard.style.height = "900px"
+    sketchboard.style.width = "900px"
+    sketchboard.height = 900
+    sketchboard.width = 900
+    sketchboardContainer.style.height = "900px"
+    sketchboardContainer.style.width = "900px"
+    ctx.lineWidth = document.querySelector("#line-width").value
 })
 
 

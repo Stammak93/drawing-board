@@ -1,8 +1,12 @@
 let sketchboard = document.querySelector("canvas.sketch")
 let ctx = sketchboard.getContext("2d")
-
 sketchboard.width = sketchboard.clientWidth
 sketchboard.height = sketchboard.clientHeight
+let sketchboardContainer = document.querySelector("div.sketch-container")
+
+
+
+
 
 
 const checkImageFormat = (imageLink) => {
@@ -24,6 +28,32 @@ const checkImageFormat = (imageLink) => {
 }
 
 
+const cheapRatioAdjustment = (value, difference) => {
+    
+    
+    if (value === "height") {
+        sketchboard.style.width = "900px"
+        sketchboard.style.height = `${Math.floor(900/difference)}px`
+        sketchboardContainer.style.width = "900px"
+        sketchboardContainer.style.height = `${Math.floor(900/difference)}px`
+    
+    } else if (value === "width") {
+        sketchboard.style.width = `${Math.floor(900/difference)}px`
+        sketchboard.style.height = "900px"
+        sketchboardContainer.style.width = `${Math.floor(900/difference)}px`
+        sketchboardContainer.style.height = "900px"
+
+
+    } else {
+        sketchboard.style.width = "900px"
+        sketchboard.style.height = "900px"
+        sketchboardContainer.style.width = "900px"
+        sketchboardContainer.style.height = "900px"
+    }
+}
+
+
+
 // Ugly but works
 document.querySelector("#load-btn").addEventListener("click", (e) => {
     
@@ -33,8 +63,8 @@ document.querySelector("#load-btn").addEventListener("click", (e) => {
     
         let imageType = document.querySelector("#load-input").files[0].type
         let imageFile = document.querySelector("#load-input").files[0]
-        let maxWidth;
-        let maxHeight;
+        let adjustment;
+        let imageDifference;
         let counter = checkImageFormat(imageType)
 
         // clear canvas before drawing in case there is another image displayed
@@ -45,32 +75,24 @@ document.querySelector("#load-btn").addEventListener("click", (e) => {
             reader.onload = function(imageFile) {
                 let image = new Image()
                 image.onload = function(){
-                    // checking whether the image is larger than canvas
-                    // and then drawing to canvas accordingly
-                    if (image.width < sketchboard.width) {
-                        maxWidth = image.width
+
+                    if (image.width < image.height) {
+                        adjustment = "width"
+                        imageDifference = image.height/image.width
+                    } else if (image.width > image.height) {
+                        adjustment = "height"
+                        imageDifference = image.width/image.height
                     } else {
-                        // here I am trying to preserve the correct height and width of the image
-                        // by figuring out the difference between height and width and then
-                        // dividing that by the new width or height.
-                        if (image.width < image.height) {
-                            maxWidth = Math.floor(sketchboard.width/(image.height/image.width))
-                        } else {
-                            maxWidth = sketchboard.width
-                        }
+                        adjustment = "none"
+                        imageDifference = 0
                     }
 
-                    if (image.height < sketchboard.height) {
-                        maxHeight = image.height
-                    } else {
-                        if (image.height < image.width) {
-                            maxHeight = Math.floor(sketchboard.height/(image.width/image.height))
-                        } else {
-                        maxHeight = sketchboard.height
-                        }
-                    }
-                    // draw image to canvas and centre it
-                    ctx.drawImage(image,Math.floor((sketchboard.width - maxWidth)/2),Math.floor((sketchboard.height - maxHeight)/2), maxWidth, maxHeight)
+                    sketchboard.height = image.height
+                    sketchboard.width = image.width
+
+
+                    ctx.drawImage(image,0, 0, sketchboard.width, sketchboard.height)
+                    cheapRatioAdjustment(adjustment,imageDifference)
                     }
                     image.src = imageFile.target.result
                 }
@@ -99,6 +121,6 @@ const downloadCanvasImage = (data, filename="untitled.jpg") => {
 
 document.querySelector("button#save-as").addEventListener("click", (e) => {
     
-    let data = sketchboard.toDataURL("image/jpg",1)
+    let data = sketchboard.toDataURL("image/png",1)
     downloadCanvasImage(data)
 })

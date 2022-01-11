@@ -6,7 +6,7 @@ body {
 }
 
 
-div.container {
+div.main-container {
     background-color: black;
     display: flex;
     height: 100%;
@@ -28,15 +28,15 @@ div.container {
 div.sketch-container {
     display: flex;
     height: 900px;
-    width: 1200px;
+    width: 900px;
 }
 
 
 canvas.sketch {
     background-color: white;
-    width: 1200px;
-    height: 900px;
     display: flex;
+    height: 900px;
+    width: 900px;
 }
 
 
@@ -44,8 +44,39 @@ canvas.sketch {
     background-color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
-    width: 250px;
+    width: 350px;
+}
+
+.drawing-stuff {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.colour-changer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    top: 20px;
+}
+
+
+.line-width-label {
+    text-align: center;
+    position: relative;
+    top: 15px;
+}
+
+
+.image-manipulation-container {
+    background-color: red;
+    height: 200px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
