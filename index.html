@@ -22,10 +22,11 @@
             <input id="colour" name="colour" type="color">
           </div>
           <label class="line-width-label" for="line-width">Line Thickness: </label>
-          <input id="line-width" name="line-width" type="number" value="5" max="15">
+          <input id="line-width" name="line-width" type="number" value="5" max="60">
           <button id="clear-canvas">Clear Canvas</button>
-          <button class="rainbow-colours">Click Me to Draw Rainbows</button>
-          <button class="confetti">Click Me to Draw Confetti</button>
+          <button class="rainbow-colours">Draw Rainbows Toggle</button>
+          <button class="confetti">Draw Confetti Toggle</button>
+          <button class="draw-shapes">Draw Shapes Toggle</button>
         </div>
         <div class="image-manipulation-container">
           <div class="image-load">
@@ -33,13 +34,16 @@
             <button id="load-btn">Load Image</button>
           </div>
           <div class="image-effects">
-            <button class="image-effect" id="sepia">Image-Effect Sepia</button>
-            <button class="image-effect" id="all-black">Image-Effect Very Black</button>
-            <button class="image-effect" id="all-red">Image-Effect All-Red</button>
-            <button class="image-effect" id="negative">Image-Effect Negative</button>
-            <button class="image-effect" id="black-and-white">Image-Effect Black/White</button>
-            <button class="image-effect" id="fishnet">Image-Effect Fishnet</button>
-            <button class="image-effect" id="exp-filter">Experimental</button>
+            <select name="effects" class="effects">
+              <option class="image-effect" value="">None</option>
+              <option class="image-effect" value="sepia">Sepia</option>
+              <option class="image-effect" value="all-black">Very Black</option>
+              <option class="image-effect" value="all-red">All-Red</option>
+              <option class="image-effect" value="negative">Negative</option>
+              <option class="image-effect" value="black-and-white">Black/White</option>
+              <option class="image-effect" value="butterfly-net">Butterfly-Net</option>
+              <option class="image-effect" value="exp-filter">Experimental</option>
+            </select>
           </div>
         </div>
       </div>

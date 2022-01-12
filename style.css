@@ -80,3 +80,8 @@ canvas.sketch {
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+
+div.image-load {
+    overflow: hidden;
+}

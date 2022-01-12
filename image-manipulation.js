@@ -79,6 +79,18 @@ const strongSepiaFilter = (data) => {
 }
 
 
+const whatFilter = (data) => {
+    for (let i=0; i < data.length; i += 4) {
+        let dataOne = data[i+2]
+        let dataTwo = data[i]
+        data[i] = dataOne
+        data[i+2] = dataTwo
+    }
+}
+
+
+
+
 const imageEffectSepia = () => {
     
     imageData = ctx.getImageData(0, 0, sketchboard.width, sketchboard.height)
@@ -123,7 +135,7 @@ const imageEffectNegative = () => {
     ctx.putImageData(imageData, 0, 0)
 }
 
-const imageEffectFishnet = () => {
+const imageEffectButterflyNet = () => {
     imageData = ctx.getImageData(0, 0, sketchboard.width, sketchboard.height)
 
 
@@ -134,6 +146,7 @@ const imageEffectFishnet = () => {
 
 
 const imageEffectExperimental = () => {
+    
     imageData = ctx.getImageData(0, 0, sketchboard.width, sketchboard.height)
 
 
@@ -143,10 +156,38 @@ const imageEffectExperimental = () => {
 }
 
 
-document.querySelector("#sepia").addEventListener("click", imageEffectSepia)
-document.querySelector("#all-red").addEventListener("click", imageEffectAllRed)
-document.querySelector("#all-black").addEventListener("click", imageEffectVeryBlack)
-document.querySelector("#black-and-white").addEventListener("click", imageEffectBlackandWhite)
-document.querySelector("#negative").addEventListener("click", imageEffectNegative)
-document.querySelector("#fishnet").addEventListener("click", imageEffectFishnet)
-document.querySelector("#exp-filter").addEventListener("click", imageEffectExperimental)
+let effectOptions = document.querySelector("select.effects")
+let counter = 0
+
+effectOptions.addEventListener("change", (e) => {
+    
+    if(imageOnCanvas && e.target.value === "sepia") {
+        imageEffectSepia()
+        counter++
+    } else if (imageOnCanvas && e.target.value === "all-black") {
+        imageEffectVeryBlack()
+        counter++
+    } else if (imageOnCanvas && e.target.value === "all-red") {
+        imageEffectAllRed()
+        counter++
+    } else if (imageOnCanvas && e.target.value === "negative") {
+        imageEffectNegative()
+        counter++
+    } else if (imageOnCanvas && e.target.value === "black-and-white") {
+        imageEffectBlackandWhite()
+        counter++
+    } else if (imageOnCanvas && e.target.value === "butterfly-net") {
+        imageEffectButterflyNet()
+        counter++
+    } else if (imageOnCanvas && e.target.value === "exp-filter") {
+        imageEffectExperimental()
+        counter++
+    } else if (imageOnCanvas && counter > 0 && e.target.value === ""){
+        document.querySelector("#load-btn").click()
+        counter = 0
+    } else {
+        counter = 0
+        return;
+    }
+    
+})

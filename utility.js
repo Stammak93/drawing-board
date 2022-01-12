@@ -3,10 +3,13 @@ let ctx = sketchboard.getContext("2d")
 sketchboard.width = sketchboard.clientWidth
 sketchboard.height = sketchboard.clientHeight
 let sketchboardContainer = document.querySelector("div.sketch-container")
+let imageOnCanvas = false
 
 
+window.addEventListener("load", (e) => {
 
-
+    document.querySelector("select.effects").value = ""
+})
 
 
 const checkImageFormat = (imageLink) => {
@@ -23,6 +26,7 @@ const checkImageFormat = (imageLink) => {
     if (counter === 1) {
         return 1
     } else {
+        imageOnCanvas = false
         return 0
     }
 }
@@ -56,6 +60,8 @@ const cheapRatioAdjustment = (value, difference) => {
 
 // Ugly but works
 document.querySelector("#load-btn").addEventListener("click", (e) => {
+
+    document.querySelector("select.effects").value = ""
     
     if (document.querySelector("#load-input").files[0] === undefined) {
         return;
@@ -69,6 +75,7 @@ document.querySelector("#load-btn").addEventListener("click", (e) => {
 
         // clear canvas before drawing in case there is another image displayed
         ctx.clearRect(0, 0, sketchboard.width, sketchboard.height)
+        imageOnCanvas = false
 
         if (counter === 1){
             let reader = new FileReader()
@@ -90,16 +97,17 @@ document.querySelector("#load-btn").addEventListener("click", (e) => {
                     sketchboard.height = image.height
                     sketchboard.width = image.width
 
-
                     ctx.drawImage(image,0, 0, sketchboard.width, sketchboard.height)
                     cheapRatioAdjustment(adjustment,imageDifference)
                     }
                     image.src = imageFile.target.result
                 }
                 reader.readAsDataURL(imageFile)
+                imageOnCanvas = true
         
         } else {
             alert("Sorry, that file format isn't supported.")
+            ctx.clearRect(0, 0, sketchboard.width, sketchboard.height)
             return;
         }
     }
@@ -110,7 +118,7 @@ document.querySelector("#load-btn").addEventListener("click", (e) => {
 // Save button functionality
 
 
-const downloadCanvasImage = (data, filename="untitled.jpg") => {
+const downloadCanvasImage = (data, filename="untitled.png") => {
     let aTag = document.createElement("a")
     aTag.href = data
     aTag.download = filename
