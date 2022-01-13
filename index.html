@@ -9,49 +9,43 @@
 </head>
 <body>
     <div class="main-container">
-      <div class="something-else">
-        <button id="save-as">Save As</button>
+      <div class="toolbars">      
+        <div class="shape-toolbar">
+          <input class="x-position" type="range" min="0" value="50">
+          <input type="number" class="x-value"></input>
+          <input class="y-position" type="range" min="0" value="50">
+          <input type="number" class="y-value"></input>
+          <input class="width-slider" type="range" min="5" value="10">
+          <input type="number" class="width-value"></input>
+          <input class="height-slider" type="range" min="5" value="10">
+          <input type="number" class="height-value"></input>
+        </div>
+        <div class="toolbar-container">
+          <div class="drawing-stuff">
+            <div class="colour-changer">
+              <label for="colour">Choose a colour: </label>
+              <input id="colour" name="colour" type="color">
+            </div>
+            <label class="line-width-label" for="line-width">Line Thickness: </label>
+            <input id="line-width" name="line-width" type="number" value="5" max="60">
+            <button class="rainbow-colours">Rainbow</button>
+            <button class="confetti">Confetti</button>
+            <button id="clear-canvas">Clear Canvas</button>
+          </div>
+          <div>
+            <button id="save-as">Save As</button>
+          </div>
+        </div>
       </div>
       <div class="sketch-container">
         <canvas class="sketch"></canvas>
       </div>
-      <div class="toolbar-container">
-        <div class="drawing-stuff">
-          <div class="colour-changer">
-            <label for="colour">Choose a colour: </label>
-            <input id="colour" name="colour" type="color">
-          </div>
-          <label class="line-width-label" for="line-width">Line Thickness: </label>
-          <input id="line-width" name="line-width" type="number" value="5" max="60">
-          <button id="clear-canvas">Clear Canvas</button>
-          <button class="rainbow-colours">Draw Rainbows Toggle</button>
-          <button class="confetti">Draw Confetti Toggle</button>
-          <button class="draw-shapes">Draw Shapes Toggle</button>
-        </div>
-        <div class="image-manipulation-container">
-          <div class="image-load">
-            <input id="load-input" type="file">
-            <button id="load-btn">Load Image</button>
-          </div>
-          <div class="image-effects">
-            <select name="effects" class="effects">
-              <option class="image-effect" value="">None</option>
-              <option class="image-effect" value="sepia">Sepia</option>
-              <option class="image-effect" value="all-black">Very Black</option>
-              <option class="image-effect" value="all-red">All-Red</option>
-              <option class="image-effect" value="negative">Negative</option>
-              <option class="image-effect" value="black-and-white">Black/White</option>
-              <option class="image-effect" value="butterfly-net">Butterfly-Net</option>
-              <option class="image-effect" value="exp-filter">Experimental</option>
-            </select>
-          </div>
-        </div>
+      <div class="shapes-container">
+
       </div>
     </div>
-
-    
-    <script src="utility.js"></script>
     <script src="drawing.js"></script>
-    <script src="image-manipulation.js"></script>
+    <script src="utility.js"></script>
+    <script src="shapes.js"></script>
 </body>
 </html>

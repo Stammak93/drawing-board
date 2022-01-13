@@ -1,6 +1,11 @@
 //################################################################
 // Sketchboard stuff
 
+let sketchboardContainer = document.querySelector("div.sketch-container")
+let sketchboard = document.querySelector("canvas.sketch")
+let ctx = sketchboard.getContext("2d")
+sketchboard.width = sketchboard.clientWidth
+sketchboard.height = sketchboard.clientHeight
 let colourChange = document.querySelector("#colour") // just the element
 let lineWidth = document.querySelector("#line-width") // just the element
 let isSketching = false
@@ -11,17 +16,17 @@ let rainbowColoursIndex = 0
 let rainbowSwitch = 0
 let confettiSwitch = 0
 let rainbowColours = ["red","orange","yellow","green","blue","indigo","violet"]
-let drawShapes = false
-let shapeSwitch = 0
 
 
 
 colourChange.addEventListener("change", (e) => {
+    
     ctx.strokeStyle = e.target.value
 })
 
 
 lineWidth.addEventListener("change", (e) => {
+    
     if (e.target.value > 60) {
         e.target.value = 60
     }
@@ -33,32 +38,22 @@ lineWidth.addEventListener("change", (e) => {
     ctx.lineWidth = e.target.value
 })
 
-// clear canvas and make adjustments because things don't work otherwise
+
 document.querySelector("#clear-canvas").addEventListener("click", (e) => {
     
-    ctx.clearRect(0, 0, sketchboard.width, sketchboard.height)
-    document.querySelector("select.effects").value = ""
-    imageOnCanvas = false
-    sketchboard.style.height = "900px"
-    sketchboard.style.width = "900px"
-    sketchboard.height = 900
-    sketchboard.width = 900
-    sketchboardContainer.style.height = "900px"
-    sketchboardContainer.style.width = "900px"
-    ctx.lineWidth = document.querySelector("#line-width").value
-    ctx.strokeStyle = document.querySelector("#colour").value
+    isSketching = false
+    ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
 })
-
 
 
 document.querySelector(".rainbow-colours").addEventListener("click", (e) =>{
 
     if (rainbowSwitch === 1) {
         rainbowSwitch = 0
-        document.querySelector(".rainbow-colours").textContent = "Click Me for Rainbows"
+        document.querySelector(".rainbow-colours").textContent = "Rainbows"
     } else {
         rainbowSwitch = 1
-        document.querySelector(".rainbow-colours").textContent = "Click Me to Cancel"
+        document.querySelector(".rainbow-colours").textContent = "Cancel"
     }
 })
 
@@ -67,26 +62,27 @@ document.querySelector(".confetti").addEventListener("click", (e) =>{
 
     if (confettiSwitch === 1) {
         confettiSwitch = 0
-        document.querySelector(".confetti").textContent = "Click Me for Confetti"
+        document.querySelector(".confetti").textContent = "Confetti"
     } else {
         confettiSwitch = 1
-        document.querySelector(".confetti").textContent = "Click Me to Cancel"
+        document.querySelector(".confetti").textContent = "Cancel"
     }
 })
 
 
-sketchboard.addEventListener("mousedown", (e) =>{
+sketchboard.addEventListener("mousedown", (e) => {
     
     rainbowColoursIndex = 0
     isSketching = true
     ctx.lineCap = "round"
+    ctx.beginPath()
 
     if(rainbowSwitch === 1 && confettiSwitch === 0) {
         let t = setInterval( function () {
             ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
             rainbowColoursIndex++
-            ctx.stroke()
             ctx.beginPath()
+            //ctx.stroke()
             if(rainbowColoursIndex === 6) {
                 rainbowColoursIndex = 0
             } 
@@ -94,14 +90,14 @@ sketchboard.addEventListener("mousedown", (e) =>{
                 clearInterval(t)
                 ctx.strokeStyle = document.querySelector("#colour").value
             }
-        },50)
+        },70)
     
     } else if (confettiSwitch === 1 && rainbowSwitch === 0) {
         let t = setInterval( function () {
             ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
             rainbowColoursIndex++
-            ctx.stroke()
             ctx.beginPath()
+            //ctx.stroke()
             if(rainbowColoursIndex === 6) {
                 rainbowColoursIndex = 0
             } 
@@ -114,19 +110,15 @@ sketchboard.addEventListener("mousedown", (e) =>{
     } else {
         confettiSwitch = 0 
         rainbowSwitch = 0
-        document.querySelector(".confetti").textContent = "Click Me for Confetti"
-        document.querySelector(".rainbow-colours").textContent = "Click Me for Rainbows"
+        document.querySelector(".confetti").textContent = "Confetti"
+        document.querySelector(".rainbow-colours").textContent = "Rainbows"
     }
-
 
 })
 
 
-
 sketchboard.addEventListener("mouseup", (e) => {
     isSketching = false
-    //ctx.stroke()
-    ctx.beginPath()
 })
 
 
@@ -141,9 +133,9 @@ const sketching = (e) => {
         return;
     }
 
+    sketchboard.style.cursor = "url('images/brush.png'),auto"
     ctx.lineTo(e.clientX - sketchboard.offsetLeft, e.clientY - sketchboard.offsetTop)
     ctx.stroke()
-    //ctx.beginPath()
 }
 
 sketchboard.addEventListener("mousemove", sketching)
