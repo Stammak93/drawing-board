@@ -82,7 +82,6 @@ sketchboard.addEventListener("mousedown", (e) => {
             ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
             rainbowColoursIndex++
             ctx.beginPath()
-            //ctx.stroke()
             if(rainbowColoursIndex === 6) {
                 rainbowColoursIndex = 0
             } 
