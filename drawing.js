@@ -127,6 +127,7 @@ document.querySelector(".confetti").addEventListener("click", (e) =>{
 
 
 // Although fun, there is no way I can undo
+// all of the rainbow effect paths
 sketchboard.addEventListener("mousedown", (e) => {
     
     rainbowColoursIndex = 0
@@ -175,7 +176,6 @@ sketchboard.addEventListener("mousedown", (e) => {
 sketchboard.addEventListener("mouseup", (e) => {
     isSketching = false
     storeArrays()
-    console.log(pathArray)
 })
 
 
