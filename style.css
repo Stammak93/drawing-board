@@ -21,7 +21,6 @@ div.sketch-container {
     display: flex;
     height: 55em;
     width: 70em;
-    margin-bottom: 30px;
     justify-content: center;
     align-items: center;
 }
@@ -52,12 +51,13 @@ canvas.sketch {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2em;
     align-items: center;
+    gap: 2em;
     height: 25em;
     width: 20em;
     border-radius: 5%;
 }
+
 
 .tools{
     background-color: aquamarine;
@@ -69,14 +69,45 @@ canvas.sketch {
 
 
 .shape-choice-container {
-    background-color: aliceblue;
+    background-color: #fafcff;
     margin-left: 2em;
     display: flex;
-    height: 7em;
+    justify-content: space-evenly;
+    height: 9em;
     width: 20em;
     border-radius: 5%;
 }
 
+
+.shape-btn-container-one {
+    display: flex;
+    flex-direction: column;
+    width: 5em;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+
+.shape-btn-container-two {
+    display: flex;
+    flex-direction: column;
+    width: 5em;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+
+.shape-choice-container button {
+    width: 6em;
+    height: 3em;
+    border-radius: 25%;
+    border: 2px solid steelblue;
+    background-color: darkcyan;
+    color: whitesmoke;
+    font-weight: bold;
+}
 
 
 .toolbar-container-two {
@@ -92,11 +123,13 @@ canvas.sketch {
     border-radius: 5%;
 }
 
+
 .drawing-stuff {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
+
 
 .colour-changer {
     text-align: center;
@@ -115,14 +148,24 @@ canvas.sketch {
 }
 
 
-
 .shapes-container {
     background-color: white;
     margin-top: 1.4em;
     display: flex;
+    justify-content: center;
     align-self: flex-start;
     margin-right: 2em;
     height: 200px;
     width: 25em;
     border-radius: 5%;
+}
+
+
+button {
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h2 {
+    font-weight: bold;
 }

@@ -26,6 +26,10 @@ let pathArray = []
 
 const drawPaths = (pathArray) => {
     
+    if(pathArray.length === 0) {
+        return;
+    }
+    
     for (let i=0; i < pathArray.length; i += 4) {
         
         ctx.beginPath()
@@ -42,9 +46,12 @@ const drawPaths = (pathArray) => {
 
 const undoDrawing = (pathArray) => {
 
+    if(pathArray.length === 0) {
+        return;
+    }
+    
     ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
     pathArray.splice(pathArray.length-4,4)
-    console.log(pathArray)
 }
 
 
@@ -193,5 +200,6 @@ const sketching = (e) => {
     ctx.lineTo(e.clientX - sketchboard.offsetLeft, e.clientY - sketchboard.offsetTop)
     ctx.stroke()
 }
+
 
 sketchboard.addEventListener("mousemove", sketching)

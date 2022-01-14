@@ -1,6 +1,5 @@
 // I can use ctx.fill() along with buttons that when clicked will return
 // the coordinates of the shape created to fill with a specific colour
-// parseInt(x)-parseInt(lineWidth.value),parseInt(y)-parseInt(lineWidth.value),parseInt(width) + parseInt(lineWidth.value)+parseInt(lineWidth.value),parseInt(height) + parseInt(lineWidth.value)+parseInt(lineWidth.value)
 
 let shapesContainer = document.querySelector("div.shapes-container")
 let xPositionSlider = document.querySelector("input.x-position")
@@ -28,15 +27,7 @@ let x;
 let y;
 let width;
 let height;
-
-
-
-const drawSquare = (x, y, width, height) => {
-
-    //ctx.strokeRect(x, y, width, height)
-    ctx.fillStyle = colourChange.value
-    ctx.fillRect(x,y,width,height)
-}
+fillSquare = false
 
 
 const takeMeasurements = () => {
@@ -48,6 +39,11 @@ const takeMeasurements = () => {
 }
 
 // Numerical Input Listeners
+
+// all x,y,width,height values need to be numbers
+// they get passed into functions as strings and
+// that makes Javascript think that 83 is also 830
+// or 1020 less than 103
 
 
 xInput.addEventListener("change", (e) => {
@@ -63,15 +59,12 @@ xInput.addEventListener("change", (e) => {
     takeMeasurements()
 
     
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
     
-    x = e.target.value
-    y = yInput.value
-    width = widthInput.value
-    height = heightInput.value
+    x = parseInt(e.target.value)
+    y = parseInt(yInput.value)
+    width = parseInt(widthInput.value)
+    height = parseInt(heightInput.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 
@@ -91,15 +84,12 @@ yInput.addEventListener("change", (e) => {
     takeMeasurements()
 
 
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
     
-    x = xInput.value
-    y = e.target.value
-    width = widthInput.value
-    height = heightInput.value
+    x = parseInt(xInput.value)
+    y = parseInt(e.target.value)
+    width = parseInt(widthInput.value)
+    height = parseInt(heightInput.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -118,15 +108,12 @@ widthInput.addEventListener("change", (e) => {
     takeMeasurements()
 
     
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
     
-    x = xInput.value
-    y = yInput.value
-    width =  e.target.value
-    height = heightInput.value
+    x = parseInt(xInput.value)
+    y = parseInt(yInput.value)
+    width =  parseInt(e.target.value)
+    height = parseInt(heightInput.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -144,16 +131,12 @@ heightInput.addEventListener("change", (e) => {
     heightSlider.value = heightInput.value
     takeMeasurements()
 
- 
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
     
-    x = xInput.value
-    y = yInput.value
-    width = widthInput.value
-    height = e.target.value
+    x = parseInt(xInput.value)
+    y = parseInt(yInput.value)
+    width = parseInt(widthInput.value)
+    height = parseInt(e.target.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -169,16 +152,13 @@ xPositionSlider.addEventListener("change", (e) => {
     takeMeasurements()
 
     
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
 
-    x = e.target.value
-    y = yPositionSlider.value
-    width = widthSlider.value
-    height = heightSlider.value
-    savefile.push(parseInt(x),parseInt(y),parseInt(width),parseInt(height))
+    x = parseInt(e.target.value)
+    y = parseInt(yPositionSlider.value)
+    width = parseInt(widthSlider.value)
+    height = parseInt(heightSlider.value)
+    savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
 
@@ -190,15 +170,12 @@ yPositionSlider.addEventListener("change", (e) => {
     takeMeasurements()
 
     
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
 
-    x = xPositionSlider.value
-    y = e.target.value
-    width = widthSlider.value
-    height = heightSlider.value
+    x = parseInt(xPositionSlider.value)
+    y = parseInt(e.target.value)
+    width = parseInt(widthSlider.value)
+    height = parseInt(heightSlider.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -211,15 +188,12 @@ widthSlider.addEventListener("change", (e) => {
     takeMeasurements()
 
 
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
 
-    x = xPositionSlider.value
-    y = yPositionSlider.value
-    width = e.target.value
-    height = heightSlider.value
+    x = parseInt(xPositionSlider.value)
+    y = parseInt(yPositionSlider.value)
+    width = parseInt(e.target.value)
+    height = parseInt(heightSlider.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -231,16 +205,59 @@ heightSlider.addEventListener("change", (e) => {
     heightInput.value = heightSlider.value
     takeMeasurements()
 
-    
-    if (savefile.length > 0) {
-        ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-        savefile.splice(0,4)
-    }
+    clearArrayForSquareRedraw()
 
-    x = xPositionSlider.value
-    y = yPositionSlider.value
-    width = widthSlider.value
-    height = e.target.value
+    x = parseInt(xPositionSlider.value)
+    y = parseInt(yPositionSlider.value)
+    width = parseInt(widthSlider.value)
+    height = parseInt(e.target.value)
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
+
+
+
+const drawSquare = (x, y, width, height) => {
+
+    if(fillSquare) {
+        //ctx.beginPath()
+        ctx.fillStyle = colourChange.value
+        ctx.fillRect(x,y,width,height)
+    
+    } else {
+        //ctx.beginPath()
+        ctx.fillStyle = colourChange.value
+        ctx.strokeRect(x,y,width,height)
+    }
+}
+
+
+const clearArrayForSquareRedraw = () => {
+
+    if (savefile.length > 0) {
+        if(fillSquare) {
+            ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
+            savefile = []
+        } else {
+            // strokeRect adds extra pixels to the shape around the border
+            // this border is hard to erase therefore this thing
+            console.log(savefile)
+            ctx.clearRect(savefile[0]-parseInt(lineWidth.value),savefile[1]-parseInt(lineWidth.value),
+            savefile[2] + parseInt(lineWidth.value)+parseInt(lineWidth.value),
+            savefile[3] + parseInt(lineWidth.value)+parseInt(lineWidth.value))
+            
+            savefile = []
+        }
+    }
+}
+
+
+
+const drawCircle = (x,y,radius,sAngle=0,eAngle) => {
+
+    //if(fillCircle) {
+
+
+    //}
+
+}
