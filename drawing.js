@@ -7,15 +7,15 @@ let ctx = sketchboard.getContext("2d")
 
 sketchboard.width = sketchboard.clientWidth
 sketchboard.height = sketchboard.clientHeight
-let colourChange = document.querySelector("#colour") // just the element
-let lineWidth = document.querySelector("#line-width") // just the element
-let isSketching = false
+let colourChange = document.querySelector("#colour")
+let lineWidth = document.querySelector("#line-width")
 ctx.strokeStyle = document.querySelector("#colour").value // initial value on page load
 ctx.lineWidth = document.querySelector("#line-width").value // initial value on page load
 ctx.lineCap = "round"
 
-let rainbowSwitch = 0
-let confettiSwitch = 0
+let isSketching = false
+let rainbowSwitch = false
+let confettiSwitch = false
 let rainbowColours = ["red","orange","yellow","green","blue","indigo","violet"]
 let rainbowColoursIndex = 0
 let xPath = []
@@ -26,11 +26,13 @@ let pathArray = []
 
 const drawPaths = (pathArray) => {
     
-    ctx.beginPath()
     for (let i=0; i < pathArray.length; i += 4) {
+        
+        ctx.beginPath()
+        ctx.strokeStyle = pathArray[i]
+        ctx.lineWidth = pathArray[i+1]
+        
         for(let j=0; j < pathArray[i+2].length; j++) {
-            ctx.strokeStyle = pathArray[i]
-            ctx.lineWidth = pathArray[i+1]
             ctx.lineTo(pathArray[i+2][j], pathArray[i+3][j])
             ctx.stroke()
         }
@@ -42,6 +44,7 @@ const undoDrawing = (pathArray) => {
 
     ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
     pathArray.splice(pathArray.length-4,4)
+    console.log(pathArray)
 }
 
 
@@ -94,11 +97,11 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
 
 document.querySelector(".rainbow-colours").addEventListener("click", (e) =>{
 
-    if (rainbowSwitch === 1) {
-        rainbowSwitch = 0
+    if (rainbowSwitch) {
+        rainbowSwitch = false
         document.querySelector(".rainbow-colours").textContent = "Rainbows"
     } else {
-        rainbowSwitch = 1
+        rainbowSwitch = true
         document.querySelector(".rainbow-colours").textContent = "Cancel"
     }
 })
@@ -106,16 +109,17 @@ document.querySelector(".rainbow-colours").addEventListener("click", (e) =>{
 
 document.querySelector(".confetti").addEventListener("click", (e) =>{
 
-    if (confettiSwitch === 1) {
-        confettiSwitch = 0
+    if (confettiSwitch) {
+        confettiSwitch = false
         document.querySelector(".confetti").textContent = "Confetti"
     } else {
-        confettiSwitch = 1
+        confettiSwitch = true
         document.querySelector(".confetti").textContent = "Cancel"
     }
 })
 
 
+// Although fun, there is no way I can undo
 sketchboard.addEventListener("mousedown", (e) => {
     
     rainbowColoursIndex = 0
@@ -123,7 +127,7 @@ sketchboard.addEventListener("mousedown", (e) => {
     ctx.lineCap = "round"
     ctx.beginPath()
 
-    if(rainbowSwitch === 1 && confettiSwitch === 0) {
+    if(rainbowSwitch && !confettiSwitch) {
         let t = setInterval( function () {
             ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
             rainbowColoursIndex++
@@ -131,30 +135,29 @@ sketchboard.addEventListener("mousedown", (e) => {
             if(rainbowColoursIndex === 6) {
                 rainbowColoursIndex = 0
             } 
-            if(rainbowSwitch === 0) {
+            if(!rainbowSwitch) {
                 clearInterval(t)
                 ctx.strokeStyle = document.querySelector("#colour").value
             }
         },70)
     
-    } else if (confettiSwitch === 1 && rainbowSwitch === 0) {
+    } else if (confettiSwitch && !rainbowSwitch) {
         let t = setInterval( function () {
             ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
             rainbowColoursIndex++
             ctx.beginPath()
-            //ctx.stroke()
             if(rainbowColoursIndex === 6) {
                 rainbowColoursIndex = 0
             } 
-            if(confettiSwitch === 0) {
+            if(!confettiSwitch) {
                 clearInterval(t)
                 ctx.strokeStyle = document.querySelector("#colour").value
             }
         },10)
     
     } else {
-        confettiSwitch = 0 
-        rainbowSwitch = 0
+        confettiSwitch = false
+        rainbowSwitch = false
         document.querySelector(".confetti").textContent = "Confetti"
         document.querySelector(".rainbow-colours").textContent = "Rainbows"
     }
@@ -165,6 +168,7 @@ sketchboard.addEventListener("mousedown", (e) => {
 sketchboard.addEventListener("mouseup", (e) => {
     isSketching = false
     storeArrays()
+    console.log(pathArray)
 })
 
 
@@ -176,6 +180,7 @@ const sketching = (e) => {
 
     // this is here because if I mouse off the canvas
     // it never registers that I stopped drawing
+    // and continues as soon as I mouse over
     if (e.buttons !== 1) {
         isSketching = false
         storeArrays()
