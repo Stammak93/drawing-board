@@ -1,7 +1,5 @@
-// sketchboard
-// sketchContainer
-// ctx
-
+// I can use ctx.fill() along with buttons that when clicked will return
+// the coordinates of the shape created to fill with a specific colour
 // parseInt(x)-parseInt(lineWidth.value),parseInt(y)-parseInt(lineWidth.value),parseInt(width) + parseInt(lineWidth.value)+parseInt(lineWidth.value),parseInt(height) + parseInt(lineWidth.value)+parseInt(lineWidth.value)
 
 let shapesContainer = document.querySelector("div.shapes-container")
