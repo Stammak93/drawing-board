@@ -45,10 +45,44 @@ canvas.sketch {
 }
 
 
-.toolbar-container {
+.toolbar-container-one {
     background-color: white;
     margin-left: 2em;
-    margin-bottom: 3em;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2em;
+    align-items: center;
+    height: 25em;
+    width: 20em;
+    border-radius: 5%;
+}
+
+.tools{
+    background-color: aquamarine;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.shape-choice-container {
+    background-color: aliceblue;
+    margin-left: 2em;
+    display: flex;
+    height: 7em;
+    width: 20em;
+    border-radius: 5%;
+}
+
+
+
+.toolbar-container-two {
+    background-color: white;
+    margin-left: 2em;
+    margin-bottom: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -80,20 +114,6 @@ canvas.sketch {
     top: 15px;
 }
 
-
-.shape-toolbar {
-    background-color: white;
-    margin-left: 2em;
-    margin-top: 1.4em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1em;
-    align-items: center;
-    height: 25em;
-    width: 20em;
-    border-radius: 5%;
-}
 
 
 .shapes-container {

@@ -10,17 +10,32 @@
 <body>
     <div class="main-container">
       <div class="toolbars">      
-        <div class="shape-toolbar">
-          <input class="x-position" type="range" min="0" value="50">
-          <input type="number" class="x-value"></input>
-          <input class="y-position" type="range" min="0" value="50">
-          <input type="number" class="y-value"></input>
-          <input class="width-slider" type="range" min="5" value="50">
-          <input type="number" class="width-value"></input>
-          <input class="height-slider" type="range" min="5" value="50">
-          <input type="number" class="height-value"></input>
+        <div class="toolbar-container-one">
+          <div class="tools">
+            <label for="x-position">Left or Right</label>
+            <input class="x-position" type="range" min="0" value="50">
+            <input type="number" class="x-value"></input>
+          </div>
+          <div class="tools">
+            <label for="y-position">Up or Down</label>
+            <input class="y-position" type="range" min="0" value="50">
+            <input type="number" class="y-value"></input>
+          </div>
+          <div class="tools">
+            <label for="width-slider">Width</label>
+            <input class="width-slider" type="range" min="5" value="50">
+            <input type="number" class="width-value"></input>
+          </div>
+          <div class="tools">
+            <label for="height-slider">Height</label>
+            <input class="height-slider" type="range" min="5" value="50">
+            <input type="number" class="height-value"></input>
+          </div>
         </div>
-        <div class="toolbar-container">
+        <div class="shape-choice-container">
+
+        </div>
+        <div class="toolbar-container-two">
           <div class="drawing-stuff">
             <div class="colour-changer">
               <label for="colour">Choose a colour: </label>

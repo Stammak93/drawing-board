@@ -14,6 +14,21 @@ let yInput = document.querySelector("input.y-value")
 let heightInput = document.querySelector("input.height-value")
 let widthInput = document.querySelector("input.width-value")
 
+xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
+yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
+widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
+heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+
+xInput.value = xPositionSlider.value
+yInput.value = yPositionSlider.value
+widthInput.value = widthSlider.value
+heightInput.value = heightSlider.value
+
+let x;
+let y;
+let width;
+let height;
+
 
 
 const drawSquare = (x, y, width, height) => {
@@ -23,13 +38,16 @@ const drawSquare = (x, y, width, height) => {
     ctx.fillRect(x,y,width,height)
 }
 
-// Numerical Inputs
 
-xInput.value = xPositionSlider.value
-yInput.value = yPositionSlider.value
-widthInput.value = widthSlider.value
-heightInput.value = heightSlider.value
+const takeMeasurements = () => {
 
+    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
+    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
+    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
+    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+}
+
+// Numerical Input Listeners
 
 
 xInput.addEventListener("change", (e) => {
@@ -42,20 +60,18 @@ xInput.addEventListener("change", (e) => {
 
 
     xPositionSlider.value = xInput.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
+
     
     if (savefile.length > 0) {
         ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
         savefile.splice(0,4)
     }
     
-    let x = e.target.value
-    let y = yInput.value
-    let width = widthInput.value
-    let height = heightInput.value
+    x = e.target.value
+    y = yInput.value
+    width = widthInput.value
+    height = heightInput.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 
@@ -72,21 +88,18 @@ yInput.addEventListener("change", (e) => {
 
 
     yPositionSlider.value = yInput.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
 
-    
+
     if (savefile.length > 0) {
         ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
         savefile.splice(0,4)
     }
     
-    let x = xInput.value
-    let y = e.target.value
-    let width = widthInput.value
-    let height = heightInput.value
+    x = xInput.value
+    y = e.target.value
+    width = widthInput.value
+    height = heightInput.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -102,20 +115,18 @@ widthInput.addEventListener("change", (e) => {
 
 
     widthSlider.value = widthInput.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
+
     
     if (savefile.length > 0) {
         ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
         savefile.splice(0,4)
     }
     
-    let x = xInput.value
-    let y = yInput.value
-    let width =  e.target.value
-    let height = heightInput.value
+    x = xInput.value
+    y = yInput.value
+    width =  e.target.value
+    height = heightInput.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -131,52 +142,42 @@ heightInput.addEventListener("change", (e) => {
 
 
     heightSlider.value = heightInput.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
 
-    
+ 
     if (savefile.length > 0) {
         ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
         savefile.splice(0,4)
     }
     
-    let x = xInput.value
-    let y = yInput.value
-    let width = widthInput.value
-    let height = e.target.value
+    x = xInput.value
+    y = yInput.value
+    width = widthInput.value
+    height = e.target.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
 
 
-// Sliders
-
-xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+// Slider Listeners
 
 
 xPositionSlider.addEventListener("change", (e) => {
     
 
     xInput.value = xPositionSlider.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
+
     
     if (savefile.length > 0) {
         ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
         savefile.splice(0,4)
     }
 
-    let x = e.target.value
-    let y = yPositionSlider.value
-    let width = widthSlider.value
-    let height = heightSlider.value
+    x = e.target.value
+    y = yPositionSlider.value
+    width = widthSlider.value
+    height = heightSlider.value
     savefile.push(parseInt(x),parseInt(y),parseInt(width),parseInt(height))
     drawSquare(x,y,width,height)
 })
@@ -186,10 +187,7 @@ yPositionSlider.addEventListener("change", (e) => {
 
     
     yInput.value = yPositionSlider.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
 
     
     if (savefile.length > 0) {
@@ -197,10 +195,10 @@ yPositionSlider.addEventListener("change", (e) => {
         savefile.splice(0,4)
     }
 
-    let x = xPositionSlider.value
-    let y = e.target.value
-    let width = widthSlider.value
-    let height = heightSlider.value
+    x = xPositionSlider.value
+    y = e.target.value
+    width = widthSlider.value
+    height = heightSlider.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -210,20 +208,18 @@ widthSlider.addEventListener("change", (e) => {
 
     
     widthInput.value = widthSlider.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
-    
+    takeMeasurements()
+
+
     if (savefile.length > 0) {
         ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
         savefile.splice(0,4)
     }
 
-    let x = xPositionSlider.value
-    let y = yPositionSlider.value
-    let width = e.target.value
-    let height = heightSlider.value
+    x = xPositionSlider.value
+    y = yPositionSlider.value
+    width = e.target.value
+    height = heightSlider.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
@@ -233,10 +229,7 @@ heightSlider.addEventListener("change", (e) => {
 
     
     heightInput.value = heightSlider.value
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+    takeMeasurements()
 
     
     if (savefile.length > 0) {
@@ -244,10 +237,10 @@ heightSlider.addEventListener("change", (e) => {
         savefile.splice(0,4)
     }
 
-    let x = xPositionSlider.value
-    let y = yPositionSlider.value
-    let width = widthSlider.value
-    let height = e.target.value
+    x = xPositionSlider.value
+    y = yPositionSlider.value
+    width = widthSlider.value
+    height = e.target.value
     savefile.push(x,y,width,height)
     drawSquare(x,y,width,height)
 })
