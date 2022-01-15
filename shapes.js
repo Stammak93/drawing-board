@@ -2,15 +2,22 @@
 // the coordinates of the shape created to fill with a specific colour
 
 let shapesContainer = document.querySelector("div.shapes-container")
-let xPositionSlider = document.querySelector("input.x-position")
-let yPositionSlider = document.querySelector("input.y-position")
-let heightSlider = document.querySelector("input.height-slider")
-let widthSlider = document.querySelector("input.width-slider")
+let xPositionSlider = document.querySelector("input#x-position")
+let yPositionSlider = document.querySelector("input#y-position")
+let heightSlider = document.querySelector("input#height-slider")
+let widthSlider = document.querySelector("input#width-slider")
 
-let xInput = document.querySelector("input.x-value")
-let yInput = document.querySelector("input.y-value")
-let heightInput = document.querySelector("input.height-value")
-let widthInput = document.querySelector("input.width-value")
+let xInput = document.querySelector("input#x-value")
+let yInput = document.querySelector("input#y-value")
+let heightInput = document.querySelector("input#height-value")
+let widthInput = document.querySelector("input#width-value")
+
+let shapeFillButton = document.querySelector("button.fill-shape")
+let placeShapeButton = document.querySelector("button.place-shape")
+let undoShapeButton = document.querySelector("button.undo-shape")
+let createSquareButton = document.querySelector("button.create-square")
+let createTriangleButton = document.querySelector("button.create-triangle")
+let createCircleButton = document.querySelector("button.create-circle")
 
 xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
 yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
@@ -31,16 +38,58 @@ squareCreation = false
 circleCreation = false
 let savefile = []
 
-const takeMeasurements = () => {
 
-    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
-    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
-    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
-    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+shapeFillButton.addEventListener("click",(e) => {
+
+    if(!fillShape) {
+        fillShape = true
+    } else {
+        fillShape = false
+    }
+})
+
+
+const resetInputs = () => {
+
+    let inputs = document.querySelectorAll(".tool")
+
+    inputs.forEach((input) => {
+
+        input.value = 50
+    })
 }
 
 
-const drawSquare = (x, y, width, height) => {
+const disableInputs = () => {
+
+    let inputs = document.querySelectorAll(".tool")
+    
+    if(!squareCreation && !circleCreation) {
+        
+        inputs.forEach((input) => {
+        
+            input.disabled = true
+        })
+    
+    } else if (squareCreation) {
+        
+        inputs.forEach((input) => {
+            input.disabled = false
+        })
+    }
+}
+
+disableInputs()
+
+
+// Square Related stuff
+
+const drawSquare = () => {
+
+    x = parseInt(xInput.value)
+    y = parseInt(yInput.value)
+    width = parseInt(widthInput.value)
+    height = parseInt(heightInput.value)
 
     if(fillShape) {
         ctx.fillStyle = colourChange.value
@@ -53,26 +102,45 @@ const drawSquare = (x, y, width, height) => {
 }
 
 
+const saveSquareInfoToTempArray = () => {
+
+    x = parseInt(xInput.value)
+    y = parseInt(yInput.value)
+    width = parseInt(widthInput.value)
+    height = parseInt(heightInput.value)
+    savefile.push(x,y,width,height)
+}
+
+
 const clearArrayForSquareRedraw = () => {
 
-    if (savefile.length > 0) {
-        if(fillShape) {
-            ctx.clearRect(savefile[0],savefile[1],savefile[2],savefile[3])
-            savefile = []
+    if (savefile.length > 0) { 
         
-        } else {
-            
             // strokeRect adds extra pixels to the shape around the border
             // this border is hard to erase therefore this thing
             ctx.clearRect(savefile[0]-parseInt(lineWidth.value),savefile[1]-parseInt(lineWidth.value),
             savefile[2] + parseInt(lineWidth.value)+parseInt(lineWidth.value),
             savefile[3] + parseInt(lineWidth.value)+parseInt(lineWidth.value))
-            
             savefile = []
-        }
+    } else {
+        return;
     }
 }
 
+
+
+// adjust sliders accordingly
+const takeMeasurementsSquare = () => {
+
+    xPositionSlider.max = sketchboard.clientWidth - widthSlider.value
+    yPositionSlider.max = sketchboard.clientHeight - heightSlider.value
+    widthSlider.max = sketchboard.clientWidth - xPositionSlider.value
+    heightSlider.max = sketchboard.clientHeight - yPositionSlider.value
+}
+
+
+// Compulsory functions that need to be passed in as callback function
+// in order to remove event listeners.
 
 const xInputCompulsoryFunction = () => {
 
@@ -82,19 +150,12 @@ const xInputCompulsoryFunction = () => {
         xInput.value = 0
     }
 
-
     xPositionSlider.value = xInput.value
-    takeMeasurements()
-
-    
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
     
-    x = parseInt(xInput.value)
-    y = parseInt(yInput.value)
-    width = parseInt(widthInput.value)
-    height = parseInt(heightInput.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
@@ -106,19 +167,12 @@ const yInputCompulsoryFunction = () => {
         yInput.value = 0
     }
 
-
     yPositionSlider.value = yInput.value
-    takeMeasurements()
-
-
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
     
-    x = parseInt(xInput.value)
-    y = parseInt(yInput.value)
-    width = parseInt(widthInput.value)
-    height = parseInt(heightInput.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
@@ -130,19 +184,12 @@ const widthInputCompulsoryFunction = () => {
         widthInput.value = 0
     }
 
-
     widthSlider.value = widthInput.value
-    takeMeasurements()
-
-    
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
     
-    x = parseInt(xInput.value)
-    y = parseInt(yInput.value)
-    width =  parseInt(widthInput.value)
-    height = parseInt(heightInput.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 } 
 
 
@@ -154,100 +201,61 @@ const heighInputCompulsoryFunction = () => {
         heightInput.value = 0
     }
 
-
     heightSlider.value = heightInput.value
-    takeMeasurements()
-
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
     
-    x = parseInt(xInput.value)
-    y = parseInt(yInput.value)
-    width = parseInt(widthInput.value)
-    height = parseInt(heightInput.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
 const xPositionSliderCompulsoryFunction = () => {
 
     xInput.value = xPositionSlider.value
-    takeMeasurements()
-
-    
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
 
-    x = parseInt(xPositionSlider.value)
-    y = parseInt(yPositionSlider.value)
-    width = parseInt(widthSlider.value)
-    height = parseInt(heightSlider.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
 const yPositionSliderCompulsoryFunction = () => {
-    yInput.value = yPositionSlider.value
-    takeMeasurements()
-
     
+    yInput.value = yPositionSlider.value
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
 
-    x = parseInt(xPositionSlider.value)
-    y = parseInt(yPositionSlider.value)
-    width = parseInt(widthSlider.value)
-    height = parseInt(heightSlider.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
 const widthSliderCompulsoryFunction = () => {
     
     widthInput.value = widthSlider.value
-    takeMeasurements()
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
 
-    x = parseInt(xPositionSlider.value)
-    y = parseInt(yPositionSlider.value)
-    width = parseInt(widthSlider.value)
-    height = parseInt(heightSlider.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
-
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
 const heightSliderCompulsoryFunction = () => {
     
     heightInput.value = heightSlider.value
-    takeMeasurements()
-
+    takeMeasurementsSquare()
     clearArrayForSquareRedraw()
 
-    x = parseInt(xPositionSlider.value)
-    y = parseInt(yPositionSlider.value)
-    width = parseInt(widthSlider.value)
-    height = parseInt(heightSlider.value)
-    savefile.push(x,y,width,height)
-    drawSquare(x,y,width,height)
+    saveSquareInfoToTempArray()
+    drawSquare()
 }
 
 
+createSquareButton.addEventListener("click", (e) => {
 
-const createSquare = document.querySelector("button.create-square")
-createSquare.addEventListener("click", (e) => {
-
-    xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
-    yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
-    heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
-    widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
-    xInput.removeEventListener("change",xInputCompulsoryFunction)
-    yInput.removeEventListener("change",yInputCompulsoryFunction) 
-    widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
-    heightInput.removeEventListener("change",heighInputCompulsoryFunction)
-    
-    
     if (!squareCreation && !circleCreation) {
             squareCreation = true
     } else {
@@ -255,7 +263,12 @@ createSquare.addEventListener("click", (e) => {
     }
 
     if (squareCreation) {
-            
+        
+        resetInputs()
+        disableInputs()
+        saveSquareInfoToTempArray()
+        drawSquare()
+        
         xInput.addEventListener("change", xInputCompulsoryFunction)
         yInput.addEventListener("change", yInputCompulsoryFunction)
         widthInput.addEventListener("change", widthInputCompulsoryFunction)     
@@ -266,6 +279,18 @@ createSquare.addEventListener("click", (e) => {
         heightSlider.addEventListener("change",heightSliderCompulsoryFunction)
 
         } else {
-            return;
+            
+            resetInputs()
+            disableInputs()
+            clearArrayForSquareRedraw()
+            
+            xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
+            yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
+            heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
+            widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
+            xInput.removeEventListener("change",xInputCompulsoryFunction)
+            yInput.removeEventListener("change",yInputCompulsoryFunction) 
+            widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
+            heightInput.removeEventListener("change",heighInputCompulsoryFunction)
     }
 })
