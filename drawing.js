@@ -14,12 +14,7 @@ ctx.lineWidth = document.querySelector("#line-width").value // initial value on 
 ctx.lineCap = "round"
 
 let isSketching = false
-let rainbowSwitch = false
-let confettiSwitch = false
-let rainbowColours = ["red","orange","yellow","green","blue","indigo","violet"]
-let rainbowColoursIndex = 0
-let xPath = []
-let yPath = []
+let xyPath = []
 let pathArray = []
 
 
@@ -30,22 +25,20 @@ const drawPaths = (pathArray) => {
         return;
     }
     
-    for (let i=0; i < pathArray.length; i += 4) {
+    for (let i=0; i < pathArray.length; i += 3) {
         
         ctx.beginPath()
         ctx.strokeStyle = pathArray[i]
         ctx.lineWidth = pathArray[i+1]
         
-        for(let j=0; j < pathArray[i+2].length; j++) {
-            ctx.lineTo(pathArray[i+2][j], pathArray[i+3][j])
+        for(let j=0; j < pathArray[i+2].length; j += 2) {
+            ctx.lineTo(pathArray[i+2][j], pathArray[i+2][j+1])
             ctx.stroke()
         }
     }
 }
 
 
-// Not sure about this feature
-// It undoes in steps
 const undoDrawing = (pathArray) => {
 
     if(pathArray.length === 0) {
@@ -53,32 +46,22 @@ const undoDrawing = (pathArray) => {
     }
     
     ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
-    pathArray.splice(pathArray.length-4,4)
+    pathArray.splice(pathArray.length-3,3)
 }
 
 
 // Is it a good idea to store every move in an array?
-const storeArrays = () => {
+const storeArray = () => {
 
-    pathArray.push(colourChange.value,lineWidth.value,xPath,yPath)
-    xPath = []
-    yPath = []
+    pathArray.push(colourChange.value,lineWidth.value,xyPath)
+    xyPath = []
 }
 
 
 colourChange.addEventListener("change", (e) => {
     
     ctx.strokeStyle = e.target.value
-
-    if (squareCreation) {
-        saveSquareInfoToTempArray()
-        drawSquare()
-    }
-
-    if (circleCreation) {
-        saveCircleInfoToTempArray()
-        drawCircle()
-    }
+    ctx.fillStyle = e.target.value
 })
 
 
@@ -101,8 +84,7 @@ document.querySelector("#clear-canvas").addEventListener("click", (e) => {
     isSketching = false
     ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
     pathArray = []
-    savefile = []
-    resetInputs()
+    shapeArray = []
 })
 
 
@@ -110,32 +92,9 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
 
     undoDrawing(pathArray)
     drawPaths(pathArray)
+    drawShapes(shapeArray)
     ctx.strokeStyle = colourChange.value
     ctx.lineWidth = lineWidth.value
-})
-
-
-document.querySelector(".rainbow-colours").addEventListener("click", (e) =>{
-
-    if (rainbowSwitch) {
-        rainbowSwitch = false
-        document.querySelector(".rainbow-colours").textContent = "Rainbows"
-    } else {
-        rainbowSwitch = true
-        document.querySelector(".rainbow-colours").textContent = "Cancel"
-    }
-})
-
-
-document.querySelector(".confetti").addEventListener("click", (e) =>{
-
-    if (confettiSwitch) {
-        confettiSwitch = false
-        document.querySelector(".confetti").textContent = "Confetti"
-    } else {
-        confettiSwitch = true
-        document.querySelector(".confetti").textContent = "Cancel"
-    }
 })
 
 
@@ -143,58 +102,51 @@ document.querySelector(".confetti").addEventListener("click", (e) =>{
 // all of the rainbow effect paths
 sketchboard.addEventListener("mousedown", (e) => {
     
-    rainbowColoursIndex = 0
-    isSketching = true
-    ctx.lineCap = "round"
-    ctx.beginPath()
-
-    if(rainbowSwitch && !confettiSwitch) {
-        let t = setInterval( function () {
-            ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
-            rainbowColoursIndex++
-            ctx.beginPath()
-            if(rainbowColoursIndex === 6) {
-                rainbowColoursIndex = 0
-            } 
-            if(!rainbowSwitch) {
-                clearInterval(t)
-                ctx.strokeStyle = document.querySelector("#colour").value
-            }
-        },70)
+    x = e.clientX - sketchboard.offsetLeft
+    y = e.clientY - sketchboard.offsetTop
+    width = parseInt(widthInput.value)
+    height = parseInt(heightInput.value)
+    let linew = lineWidth.value
+    let colour = colourChange.value
+      
+    if (squareCreation) {
+        isSketching = false
+        drawSquare(fillShape,linew,colour,x,y,width,height)
+        saveSquareInfoToArray(fillShape,linew,colour,x,y,width,height)
     
-    } else if (confettiSwitch && !rainbowSwitch) {
-        let t = setInterval( function () {
-            ctx.strokeStyle = rainbowColours[rainbowColoursIndex]
-            rainbowColoursIndex++
-            ctx.beginPath()
-            if(rainbowColoursIndex === 6) {
-                rainbowColoursIndex = 0
-            } 
-            if(!confettiSwitch) {
-                clearInterval(t)
-                ctx.strokeStyle = document.querySelector("#colour").value
-            }
-        },10)
+    } else if (circleCreation) {
+        isSketching = false
+        drawCircle(fillShape,linew,colour,x,y,width,0)
+        saveCircleInfoToArray(fillShape,linew,colour,x,y,width,0)
+    
+    } else if (triangleCreation) {
+        isSketching = false
+        drawTriangle(fillShape,linew,colour,x,y,width,height)
+        saveTriangleInfoToArray(fillShape,linew,colour,x,y,width,height)
     
     } else {
-        confettiSwitch = false
-        rainbowSwitch = false
-        document.querySelector(".confetti").textContent = "Confetti"
-        document.querySelector(".rainbow-colours").textContent = "Rainbows"
+        isSketching = true
+        ctx.lineCap = "round"
+        ctx.beginPath()
     }
-
 })
 
 
 sketchboard.addEventListener("mouseup", (e) => {
-    isSketching = false
-    storeArrays()
+    
+    if(squareCreation || triangleCreation || circleCreation) {
+        return;
+    } else {
+        isSketching = false
+        storeArray()
+    }
 })
 
 
 const sketching = (e) => {
     
     if (!isSketching) {
+        sketchboard.style.cursor = "default"
         return;
     }
 
@@ -203,13 +155,12 @@ const sketching = (e) => {
     // and continues as soon as I mouse over again
     if (e.buttons !== 1) {
         isSketching = false
-        storeArrays()
+        storeArray()
         return;
     }
 
     sketchboard.style.cursor = "url('images/brush.png'),auto"
-    xPath.push(e.clientX - sketchboard.offsetLeft)
-    yPath.push(e.clientY - sketchboard.offsetTop)
+    xyPath.push(e.clientX - sketchboard.offsetLeft,e.clientY - sketchboard.offsetTop)
     ctx.lineTo(e.clientX - sketchboard.offsetLeft, e.clientY - sketchboard.offsetTop)
     ctx.stroke()
 }
