@@ -46,7 +46,33 @@ shapeFillButton.addEventListener("click",(e) => {
     } else {
         fillShape = false
     }
+
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
+
+    if (circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
+
 })
+
+
+const disableInputs = () => {
+
+    let inputs = document.querySelectorAll(".tool")
+      
+    inputs.forEach((input) => { 
+        input.disabled = true
+    })
+}
+
+// Call to set initial page condition
+disableInputs()
 
 
 const resetInputs = () => {
@@ -60,26 +86,81 @@ const resetInputs = () => {
 }
 
 
-const disableInputs = () => {
-
+const enableSquareInputs = () => {
+    
     let inputs = document.querySelectorAll(".tool")
     
-    if(!squareCreation && !circleCreation) {
+    if (squareCreation) {
         
-        inputs.forEach((input) => {
-        
-            input.disabled = true
-        })
-    
-    } else if (squareCreation) {
+        document.querySelector("label[for='width-slider']").textContent = "Width"
         
         inputs.forEach((input) => {
             input.disabled = false
         })
+
     }
 }
 
-disableInputs()
+
+const enableCircleInputs = () => {
+
+    let inputs = document.querySelectorAll(".tool")
+    
+    if (circleCreation) {
+        document.querySelector("label[for='width-slider']").textContent = "Radius"
+        
+        for(let i=0; i < 6; i++) {
+            inputs[i].disabled = false
+        }
+    }
+}
+
+
+const drawCircle = () => {
+
+    x = parseInt(xInput.value)
+    y = parseInt(yInput.value)
+    radius = parseInt(widthInput.value)
+    
+    if (fillShape) {
+        ctx.beginPath()
+        ctx.fillStyle = colourChange.value
+        ctx.arc(x,y,radius,0,Math.PI*2)
+        ctx.fill()
+        ctx.stroke()
+    
+    } else {
+        ctx.beginPath()
+        ctx.arc(x,y,radius,0,Math.PI*2)
+        ctx.stroke()
+    }
+}
+
+
+const saveCircleInfoToTempArray = () => {
+
+    x = parseInt(xInput.value)
+    y = parseInt(yInput.value)
+    radius = parseInt(widthInput.value)
+    savefile.push(x,y,radius)
+}
+
+
+const clearArrayCircle = () => {
+
+    // The only way to clear a circle is by creating a square around it.
+    // Needed a way to clear a square shaped area around it regardless of 
+    // radius or linewidth of the circle. This is it. 
+    let offsetValue = Math.floor(parseInt(lineWidth.value)/2) + savefile[2]+1
+    let offsetValueTwo = parseInt(lineWidth.value) + savefile[2] + 1
+    
+    if (savefile.length > 0) {
+        ctx.clearRect(savefile[0]-offsetValue,savefile[1]-offsetValue,
+        savefile[2]+offsetValueTwo,
+        savefile[2]+offsetValueTwo)
+        savefile = []
+    }
+}
 
 
 // Square Related stuff
@@ -92,11 +173,12 @@ const drawSquare = () => {
     height = parseInt(heightInput.value)
 
     if(fillShape) {
+        ctx.beginPath()
         ctx.fillStyle = colourChange.value
         ctx.fillRect(x,y,width,height)
     
     } else {
-        ctx.fillStyle = colourChange.value
+        ctx.beginPath()
         ctx.strokeRect(x,y,width,height)
     }
 }
@@ -112,16 +194,17 @@ const saveSquareInfoToTempArray = () => {
 }
 
 
-const clearArrayForSquareRedraw = () => {
+const clearArraySquare = () => {
 
     if (savefile.length > 0) { 
         
-            // strokeRect adds extra pixels to the shape around the border
-            // this border is hard to erase therefore this thing
-            ctx.clearRect(savefile[0]-parseInt(lineWidth.value),savefile[1]-parseInt(lineWidth.value),
-            savefile[2] + parseInt(lineWidth.value)+parseInt(lineWidth.value),
-            savefile[3] + parseInt(lineWidth.value)+parseInt(lineWidth.value))
-            savefile = []
+        // strokeRect adds extra pixels to the shape around the border
+        // this border is hard to erase therefore this thing
+        ctx.clearRect(savefile[0]-parseInt(lineWidth.value),savefile[1]-parseInt(lineWidth.value),
+        savefile[2] + parseInt(lineWidth.value)+parseInt(lineWidth.value),
+        savefile[3] + parseInt(lineWidth.value)+parseInt(lineWidth.value))
+        savefile = []
+    
     } else {
         return;
     }
@@ -152,10 +235,17 @@ const xInputCompulsoryFunction = () => {
 
     xPositionSlider.value = xInput.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
-    
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
+
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
 
@@ -169,10 +259,17 @@ const yInputCompulsoryFunction = () => {
 
     yPositionSlider.value = yInput.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
-    
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
+
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
 
@@ -186,12 +283,18 @@ const widthInputCompulsoryFunction = () => {
 
     widthSlider.value = widthInput.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
-    
-    saveSquareInfoToTempArray()
-    drawSquare()
-} 
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
 
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
+}
 
 const heighInputCompulsoryFunction = () => {
     
@@ -203,10 +306,17 @@ const heighInputCompulsoryFunction = () => {
 
     heightSlider.value = heightInput.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
-    
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
+
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
 
@@ -214,10 +324,17 @@ const xPositionSliderCompulsoryFunction = () => {
 
     xInput.value = xPositionSlider.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
 
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
 
@@ -225,10 +342,17 @@ const yPositionSliderCompulsoryFunction = () => {
     
     yInput.value = yPositionSlider.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
 
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
 
@@ -236,10 +360,17 @@ const widthSliderCompulsoryFunction = () => {
     
     widthInput.value = widthSlider.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
 
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
 
@@ -247,25 +378,67 @@ const heightSliderCompulsoryFunction = () => {
     
     heightInput.value = heightSlider.value
     takeMeasurementsSquare()
-    clearArrayForSquareRedraw()
+    if(squareCreation) {
+        clearArraySquare()
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
 
-    saveSquareInfoToTempArray()
-    drawSquare()
+    if(circleCreation) {
+        clearArrayCircle()
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 }
 
+
+// Note to self: I need to move the event listener removal of the other shapes 
+// to the else if statements at the top that way they are detected and removed 
+// before the circle inputs take effect.
 
 createSquareButton.addEventListener("click", (e) => {
 
     if (!squareCreation && !circleCreation) {
-            squareCreation = true
+        
+        squareCreation = true
+    
+    } else if (!squareCreation && circleCreation){
+        
+        squareCreation = true
+        circleCreation = false
+        clearArrayCircle()
+        disableInputs()
+
+        xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
+        yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
+        heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
+        widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
+        xInput.removeEventListener("change",xInputCompulsoryFunction)
+        yInput.removeEventListener("change",yInputCompulsoryFunction) 
+        widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
+        heightInput.removeEventListener("change",heighInputCompulsoryFunction)
+    
     } else {
-        squareCreation = false
+        
+        squareCreation = false  
+        resetInputs()
+        disableInputs()
+        clearArraySquare()
+        
+        xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
+        yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
+        heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
+        widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
+        xInput.removeEventListener("change",xInputCompulsoryFunction)
+        yInput.removeEventListener("change",yInputCompulsoryFunction) 
+        widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
+        heightInput.removeEventListener("change",heighInputCompulsoryFunction)
     }
 
     if (squareCreation) {
         
         resetInputs()
-        disableInputs()
+        enableSquareInputs()
         saveSquareInfoToTempArray()
         drawSquare()
         
@@ -278,19 +451,71 @@ createSquareButton.addEventListener("click", (e) => {
         widthSlider.addEventListener("change",widthSliderCompulsoryFunction)
         heightSlider.addEventListener("change",heightSliderCompulsoryFunction)
 
-        } else {
-            
-            resetInputs()
-            disableInputs()
-            clearArrayForSquareRedraw()
-            
-            xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
-            yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
-            heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
-            widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
-            xInput.removeEventListener("change",xInputCompulsoryFunction)
-            yInput.removeEventListener("change",yInputCompulsoryFunction) 
-            widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
-            heightInput.removeEventListener("change",heighInputCompulsoryFunction)
     }
+})
+
+
+createCircleButton.addEventListener("click",(e) => {
+
+    if (!circleCreation && !squareCreation) {
+        
+        circleCreation = true
+    
+    } else if (!circleCreation && squareCreation) {
+        
+        circleCreation = true
+        squareCreation = false
+        clearArraySquare()
+        disableInputs()
+        
+        xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
+        yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
+        heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
+        widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
+        xInput.removeEventListener("change",xInputCompulsoryFunction)
+        yInput.removeEventListener("change",yInputCompulsoryFunction) 
+        widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
+        heightInput.removeEventListener("change",heighInputCompulsoryFunction)
+    
+    } else {
+        
+        circleCreation = false
+        // this is where the circle event listeners events get removed
+        xPositionSlider.removeEventListener("change",xPositionSliderCompulsoryFunction)
+        yPositionSlider.removeEventListener("change",yPositionSliderCompulsoryFunction)
+        heightSlider.removeEventListener("change",heightSliderCompulsoryFunction) 
+        widthSlider.removeEventListener("change",widthSliderCompulsoryFunction)
+        xInput.removeEventListener("change",xInputCompulsoryFunction)
+        yInput.removeEventListener("change",yInputCompulsoryFunction) 
+        widthInput.removeEventListener("change",widthInputCompulsoryFunction) 
+        heightInput.removeEventListener("change",heighInputCompulsoryFunction)
+
+        //let offsetValue = Math.floor(parseInt(lineWidth.value)/2) + savefile[2]+1
+        //let offsetValueTwo = parseInt(lineWidth.value) + savefile[2] + 1
+        resetInputs()
+        disableInputs()
+        // ctx.strokeRect(savefile[0]-offsetValue,savefile[1]-offsetValue,
+        // savefile[2]+offsetValueTwo,
+        // savefile[2]+offsetValueTwo)
+        clearArrayCircle()
+    }
+
+
+    if (circleCreation) {
+        
+        resetInputs()
+        enableCircleInputs()
+        saveCircleInfoToTempArray()
+        drawCircle()
+
+        xInput.addEventListener("change", xInputCompulsoryFunction)
+        yInput.addEventListener("change", yInputCompulsoryFunction)
+        widthInput.addEventListener("change", widthInputCompulsoryFunction)     
+        heightInput.addEventListener("change",heighInputCompulsoryFunction)
+        xPositionSlider.addEventListener("change",xPositionSliderCompulsoryFunction)           
+        yPositionSlider.addEventListener("change",yPositionSliderCompulsoryFunction)
+        widthSlider.addEventListener("change",widthSliderCompulsoryFunction)
+        heightSlider.addEventListener("change",heightSliderCompulsoryFunction)
+    
+    } 
 })

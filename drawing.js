@@ -23,7 +23,7 @@ let yPath = []
 let pathArray = []
 
 
-
+// The idea is to store arrays of paths and recreate them.
 const drawPaths = (pathArray) => {
     
     if(pathArray.length === 0) {
@@ -44,6 +44,8 @@ const drawPaths = (pathArray) => {
 }
 
 
+// Not sure about this feature
+// It undoes in steps
 const undoDrawing = (pathArray) => {
 
     if(pathArray.length === 0) {
@@ -55,6 +57,7 @@ const undoDrawing = (pathArray) => {
 }
 
 
+// Is it a good idea to store every move in an array?
 const storeArrays = () => {
 
     pathArray.push(colourChange.value,lineWidth.value,xPath,yPath)
@@ -66,6 +69,16 @@ const storeArrays = () => {
 colourChange.addEventListener("change", (e) => {
     
     ctx.strokeStyle = e.target.value
+
+    if (squareCreation) {
+        saveSquareInfoToTempArray()
+        drawSquare()
+    }
+
+    if (circleCreation) {
+        saveCircleInfoToTempArray()
+        drawCircle()
+    }
 })
 
 
@@ -88,6 +101,8 @@ document.querySelector("#clear-canvas").addEventListener("click", (e) => {
     isSketching = false
     ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
     pathArray = []
+    savefile = []
+    resetInputs()
 })
 
 
@@ -98,8 +113,6 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
     ctx.strokeStyle = colourChange.value
     ctx.lineWidth = lineWidth.value
 })
-
-
 
 
 document.querySelector(".rainbow-colours").addEventListener("click", (e) =>{
@@ -187,7 +200,7 @@ const sketching = (e) => {
 
     // this is here because if I mouse off the canvas
     // it never registers that I stopped drawing
-    // and continues as soon as I mouse over
+    // and continues as soon as I mouse over again
     if (e.buttons !== 1) {
         isSketching = false
         storeArrays()
