@@ -1,8 +1,12 @@
 body {
-    background-color: black;
+    background-color: #4e3a3a;/*#999999;/*#ad6f6f;#e7d39c;*/
     padding: 0;
     margin: 0;
     height: 100vh;
+    font-family: 'Roboto Slab', serif;
+    font-weight: bold;
+    color: #383838;
+    overflow: hidden;
 }
 
 
@@ -10,17 +14,16 @@ div.main-container {
     display: flex;
     height: 100%;
     width: 100%;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
     gap: 3em;
 }
 
 
 div.sketch-container {
-    background-color: white;
     display: flex;
-    height: 55em;
-    width: 70em;
+    height: 80%;
+    width: 60%;
     justify-content: center;
     align-items: center;
 }
@@ -29,38 +32,41 @@ div.sketch-container {
 canvas.sketch {  
     background-color: white;
     display: flex;
-    height: 55em;
-    width: 70em;
+    height: 100%;
+    width: 100%;
+    /*height: 55rem;
+    width: 70rem;*/
 }
 
 
 
 .toolbars {
-    background-color: red;
     display: flex;
     height: 100%;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    gap: 3em;
 }
 
 
 .toolbar-container-one {
-    background-color: white;
-    margin-left: 2em;
+    background-color: #eeeeee;
+    margin-left: 3em;
     margin-top: 1em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2em;
-    height: 25em;
-    width: 20em;
+    height: 35%;
+    width: 90%;
     border-radius: 5%;
+    box-shadow: 10px 15px 10px #331f1f;
 }
 
 
 .tools{
-    background-color: aquamarine;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -68,65 +74,75 @@ canvas.sketch {
 }
 
 
-.shape-choice-container {
-    background-color: #fafcff;
-    margin-left: 2em;
-    display: flex;
-    justify-content: space-evenly;
-    height: 9em;
-    width: 20em;
-    border-radius: 5%;
-}
-
-
 .shape-btn-container-one {
     display: flex;
-    flex-direction: column;
-    width: 5em;
+    flex-direction: row;
+    width: 18em;
     align-items: center;
     justify-content: center;
     gap: 0.5em;
+}
+
+
+.shape-btn-container-one button {
+
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    border: 2px solid#383838;
+    border-radius: 10%;
+    background-color: #584141;
+    box-shadow: 5px 7px 15px #331f1f;
+    color: #ffffff;
 }
 
 
 .shape-btn-container-two {
     display: flex;
-    flex-direction: column;
-    width: 5em;
+    flex-direction: row;
+    width: 18em;
     align-items: center;
     justify-content: center;
     gap: 0.5em;
 }
 
 
-.shape-choice-container button {
-    width: 6em;
+.shape-btn-container-two button {
+
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    border: 2px solid #383838;
+    border-radius: 10%;
+    background-color: #584141;
+    box-shadow: 5px 7px 15px #331f1f;
+    color: #ffffff;
+}
+
+
+button.fill-shape, .undo-shape {
+    width: 7em;
     height: 3em;
-    border-radius: 25%;
-    border: 2px solid steelblue;
-    background-color: darkcyan;
-    color: whitesmoke;
-    font-weight: bold;
 }
 
 
 .toolbar-container-two {
-    background-color: white;
-    margin-left: 2em;
-    margin-bottom: 1em;
+    background-color: #eeeeee;
+    margin-left: 3em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 22em;
-    width: 20em;
+    height: 32%;
+    width: 90%;
     border-radius: 5%;
+    box-shadow: 10px 15px 10px #331f1f;
 }
 
 
 .drawing-stuff {
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     gap: 20px;
 }
 
@@ -141,6 +157,19 @@ canvas.sketch {
 }
 
 
+label[for='colour'] {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+input#colour {
+    width: 10em;
+    height: 5em;
+    box-shadow: 5px 7px 15px #331f1f;
+}
+
+
 .line-width-label {
     text-align: center;
     position: relative;
@@ -148,24 +177,43 @@ canvas.sketch {
 }
 
 
-.shapes-container {
-    background-color: white;
-    margin-top: 1.4em;
+.drawing-stuff button {
+    width: 10em;
+    height: 3em;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+    border: 2px solid #383838;
+    border-radius: 10%;
+    background-color: #584141;
+    box-shadow: 5px 7px 15px #331f1f;
+    color: #ffffff;
+
+}
+
+
+.save-btn {
     display: flex;
     justify-content: center;
-    align-self: flex-start;
-    margin-right: 2em;
-    height: 200px;
-    width: 25em;
+    width: 90%;
+    height: 12%;
+    margin-left: 3em;
+}
+
+
+.save-btn button {
+    font-family: 'Roboto Slab', serif;
+    color: #383838;
+    font-size: 18px;
+    font-weight: bold;
     border-radius: 5%;
+    background-color: #eeeeee;
+    width: 70%;
+    height: 100%;
+    box-shadow: 10px 15px 10px #331f1f;
 }
 
 
-button {
-    font-weight: bold;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-h2 {
-    font-weight: bold;
+.save-btn button:hover {
+    background-color: #584141;
+    color: #ffffff;
 }

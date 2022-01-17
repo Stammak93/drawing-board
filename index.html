@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
     <title>Test</title>
 </head>
@@ -21,17 +24,14 @@
             <input class="tool" id="height-slider" type="range" min="5" value="50">
             <input type="number" class="tool" id="height-value"></input>
           </div>
-        </div>
-        <div class="shape-choice-container">
           <div class="shape-btn-container-one">
-            <button class="fill-shape">Fill</button>
-            <button class="place-shape">Place Shape</button>
-            <button class="undo-shape">Undo</button>
-          </div>
-          <div class="shape-btn-container-two">
             <button class="create-square">Create Square</button>
             <button class="create-triangle">Create Triangle</button>
             <button class="create-circle">Create Circle</button>
+          </div>
+          <div class="shape-btn-container-two">
+            <button class="fill-shape">Fill</button>
+            <button class="undo-shape">Undo Shape</button>
           </div>
         </div>
         <div class="toolbar-container-two">
@@ -42,21 +42,24 @@
             </div>
             <label class="line-width-label" for="line-width">Line Thickness: </label>
             <input id="line-width" name="line-width" type="number" value="5" max="60">
-            <button class="rainbow-colours">Rainbow</button>
-            <button class="confetti">Confetti</button>
             <button id="clear-canvas">Clear Canvas</button>
-            <button id="undo-change">Undo</button>
+            <button id="undo-change">Undo Drawing</button>
           </div>
-          <div>
-            <button id="save-as">Save As</button>
-          </div>
+        </div>
+        <div class="save-btn">
+          <button id="save-as">Save Drawing</button>
         </div>
       </div>
       <div class="sketch-container">
         <canvas class="sketch"></canvas>
       </div>
-      <div class="shapes-container">
-        <h2>Shapes Storage</h1>
+      <img src="" alt="">
+        <div class="photo-container">
+          <img src="" alt="">
+        <div class="blinds-effect-container">
+          <div class="blind"></div>
+          <div class="blind"></div>
+        </div>
       </div>
     </div>
     <script src="drawing.js"></script>

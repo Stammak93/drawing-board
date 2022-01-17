@@ -1,5 +1,4 @@
 
-
 let shapesContainer = document.querySelector("div.shapes-container")
 let heightSlider = document.querySelector("input#height-slider")
 let widthSlider = document.querySelector("input#width-slider")
@@ -79,48 +78,6 @@ const enableCircleInputs = () => {
 }
 
 
-shapeFillButton.addEventListener("click",(e) => {
-
-    if(fillShape === "no-fill") {
-        fillShape = "fill"
-    } else {
-        fillShape = "no-fill"
-    }
-})
-
-
-const drawTriangle = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
-
-    ctx.lineWidth = lineW
-
-    let triangleWidth = Math.floor(widthValue/2)
-    
-    if(fillShape === "fill") {
-        ctx.fillStyle = colour
-        ctx.beginPath()
-        ctx.moveTo(xValue,yValue)
-        ctx.lineTo(xValue-triangleWidth, yValue+heightValue)
-        ctx.lineTo(xValue+triangleWidth, yValue+heightValue)
-        ctx.fill()
-
-    } else {
-        ctx.strokeStyle = colour
-        ctx.beginPath()
-        ctx.moveTo(xValue,yValue)
-        ctx.lineTo(xValue-triangleWidth, yValue+heightValue)
-        ctx.lineTo(xValue+triangleWidth, yValue+heightValue)
-        ctx.closePath()
-        ctx.stroke()
-    }
-}
-
-
-const saveTriangleInfoToArray = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
-
-    shapeArray.push("triangle",fillShape,lineW,colour,xValue,yValue,widthValue,heightValue)
-}
-
-
 const drawShapes = (shapeArray) => {
 
     for (let i=0; i < shapeArray.length; i+=8) {
@@ -159,6 +116,50 @@ undoShapeButton.addEventListener("click",(e) => {
     drawPaths(pathArray)
     drawShapes(shapeArray)
 })
+
+
+shapeFillButton.addEventListener("click",(e) => {
+
+    if(fillShape === "no-fill") {
+        fillShape = "fill"
+    } else {
+        fillShape = "no-fill"
+    }
+})
+
+
+// Triangle Related stuff
+
+const drawTriangle = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
+
+    ctx.lineWidth = lineW
+
+    let triangleWidth = Math.floor(widthValue/2)
+    
+    if(fillShape === "fill") {
+        ctx.fillStyle = colour
+        ctx.beginPath()
+        ctx.moveTo(xValue,yValue)
+        ctx.lineTo(xValue-triangleWidth, yValue+heightValue)
+        ctx.lineTo(xValue+triangleWidth, yValue+heightValue)
+        ctx.fill()
+
+    } else {
+        ctx.strokeStyle = colour
+        ctx.beginPath()
+        ctx.moveTo(xValue,yValue)
+        ctx.lineTo(xValue-triangleWidth, yValue+heightValue)
+        ctx.lineTo(xValue+triangleWidth, yValue+heightValue)
+        ctx.closePath()
+        ctx.stroke()
+    }
+}
+
+
+const saveTriangleInfoToArray = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
+
+    shapeArray.push("triangle",fillShape,lineW,colour,xValue,yValue,widthValue,heightValue)
+}
 
 
 // Circle Related Stuff
