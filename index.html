@@ -40,10 +40,12 @@
               <label for="colour">Choose a colour: </label>
               <input id="colour" name="colour" type="color">
             </div>
-            <label class="line-width-label" for="line-width">Line Thickness: </label>
-            <input id="line-width" name="line-width" type="number" value="5" max="60">
-            <button id="clear-canvas">Clear Canvas</button>
-            <button id="undo-change">Undo Drawing</button>
+            <div class="colouring-tools">
+              <label class="line-width-label" for="line-width">Line Thickness: </label>
+              <input id="line-width" name="line-width" type="number" value="5" max="60">
+              <button id="clear-canvas">Clear Canvas</button>
+              <button id="undo-change">Undo Drawing</button>
+            </div>
           </div>
         </div>
         <div class="save-btn">
@@ -53,14 +55,18 @@
       <div class="sketch-container">
         <canvas class="sketch"></canvas>
       </div>
-      <img src="" alt="">
-        <div class="photo-container">
-          <img src="" alt="">
-        <div class="blinds-effect-container">
-          <div class="blind"></div>
-          <div class="blind"></div>
-        </div>
+      <div class="blinds-effect-container">
+        <div class="blind"></div>
+        <div class="blind"></div>
+        <div class="blind"></div>
+        <div class="blind"></div>
+        <div class="blind"></div>
+        <div class="blind"></div>
+        <div class="blind"></div>
       </div>
+    </div>
+    <div class="photo-container">
+      <img src="/images/style.jpg" alt="">
     </div>
     <script src="drawing.js"></script>
     <script src="utility.js"></script>
