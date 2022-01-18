@@ -52,7 +52,7 @@ const enableSquareTriangleInputs = () => {
     
     let inputs = document.querySelectorAll(".tool")
     
-    if (squareCreation) {
+    if (squareCreation || triangleCreation) {
         
         document.querySelector("label[for='width-slider']").textContent = "Width"
         
@@ -122,8 +122,10 @@ shapeFillButton.addEventListener("click",(e) => {
 
     if(fillShape === "no-fill") {
         fillShape = "fill"
+        e.target.classList.add("button-toggled")
     } else {
         fillShape = "no-fill"
+        e.target.classList.remove("button-toggled")
     }
 })
 
@@ -190,7 +192,7 @@ const saveCircleInfoToArray = (fillShape,lineW,colour,xValue,yValue,radiusValue,
 }
 
 
-// Square Stuff
+// Square Related Stuff
 
 const drawSquare = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
 
@@ -217,20 +219,45 @@ const saveSquareInfoToArray = (fillShape,lineW,colour,xValue,yValue,widthValue,h
 
 // Shape Creation Buttons
 
+const buttonPressedHighlight = () => {
+    
+    if(squareCreation) {
+        createSquareButton.classList.add("button-toggled")
+    } else {
+        createSquareButton.classList.remove("button-toggled")
+    }
+
+    if(triangleCreation) {
+        createTriangleButton.classList.add("button-toggled")
+    } else {
+        createTriangleButton.classList.remove("button-toggled")
+    }
+
+    if(circleCreation) {
+        createCircleButton.classList.add("button-toggled")
+    } else {
+        createCircleButton.classList.remove("button-toggled")
+    }
+}
+
+
 createSquareButton.addEventListener("click", (e) => {
 
     if (squareCreation) {
         squareCreation = false
-    
+        disableInputs()
+        buttonPressedHighlight()
     } else if(!squareCreation && circleCreation || triangleCreation) {
+        disableInputs()
         circleCreation = false
         triangleCreation = false
         squareCreation = true
         enableSquareTriangleInputs()
-    
+        buttonPressedHighlight()
     } else {
         squareCreation = true
         enableSquareTriangleInputs()
+        buttonPressedHighlight()
     }
 
 })
@@ -240,16 +267,19 @@ createCircleButton.addEventListener("click",(e) => {
 
     if (circleCreation) {
         circleCreation = false
-    
+        disableInputs()
+        buttonPressedHighlight()
     } else if (!circleCreation && squareCreation || triangleCreation) {
+        disableInputs()
         squareCreation = false
         triangleCreation = false
         circleCreation = true
         enableCircleInputs()
-    
+        buttonPressedHighlight()
     } else {
         circleCreation = true
         enableCircleInputs()
+        buttonPressedHighlight()
     }
 })
 
@@ -258,16 +288,19 @@ createTriangleButton.addEventListener("click", (e) => {
 
     if (triangleCreation) {
         triangleCreation = false
-    
+        disableInputs()
+        buttonPressedHighlight()
     } else if (!triangleCreation && circleCreation || squareCreation) {
+        disableInputs()
         circleCreation = false
         squareCreation = false
         triangleCreation = true
         enableSquareTriangleInputs()
-    
+        buttonPressedHighlight()
     } else {
         triangleCreation = true
         enableSquareTriangleInputs()
+        buttonPressedHighlight()
     }
 })
 

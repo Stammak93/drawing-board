@@ -1,0 +1,35 @@
+@media (max-width:1200px) {
+
+    div.toolbars {
+        width: 25%;
+    }
+
+
+
+}
+
+
+@media (max-width: 850px) {
+
+    div.toolbar-container-one, .toolbar-container-two, .save-btn {
+        margin-left: 0;
+    }
+
+    div.main-container {
+        gap: 0%;
+    }
+
+    div.sketch-container {
+        margin-left: 30px;
+        width: 60%;
+    }
+
+    div.toolbars {
+        width: 30%;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+}

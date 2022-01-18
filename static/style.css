@@ -1,5 +1,5 @@
 body {
-    background-color: #4e3a3a;/*#999999;/*#ad6f6f;#e7d39c;*/
+    background-color: #4e3a3a;
     padding: 0;
     margin: 0;
     height: 100vh;
@@ -14,51 +14,30 @@ div.main-container {
     display: flex;
     height: 100%;
     width: 100%;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     gap: 5%;
 }
 
 
-div.sketch-container {
-    display: flex;
-    height: 80%;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
-}
-
-
-canvas.sketch {  
-    background-color: white;
-    display: flex;
-    height: 100%;
-    width: 100%;
-    border: 5px solid #383838;
-    z-index: 1;
-}
-
-
-
 .toolbars {
     display: flex;
     height: 100%;
+    width: 17%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 3em;
+    gap: 5%;
 }
 
 
 .toolbar-container-one {
     background-color: #eeeeee;
-    margin-left: 3em;
-    margin-top: 1em;
+    margin-left: 17%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 2em;
     height: 35%;
     width: 90%;
     border-radius: 5%;
@@ -70,16 +49,55 @@ canvas.sketch {
 
 .tools{
     text-align: center;
+    width: 60%;
+    gap: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 
+.tools input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.tools input[type='range']::-webkit-slider-runnable-track {
+    background: #584141;
+}
+
+
+.tools input[type='range']::-moz-range-track {
+    background: #584141;
+    height: 100%;
+}
+
+
+.tools input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #ffffff;
+    width: 15px;
+    height: 20px;
+    border: 4px solid #584141;
+    border-radius: 50%;
+}
+
+
+.tools input[type='range']::-moz-range-thumb {
+    background: #ffffff;
+    width: 15px;
+    height: 20px;
+    border: 4px solid #584141;
+}
+
+
+
+
 .shape-btn-container-one {
     display: flex;
     flex-direction: row;
-    width: 18em;
+    width: 100%;
+    height: 14%;
     align-items: center;
     justify-content: center;
     gap: 3%;
@@ -87,9 +105,8 @@ canvas.sketch {
 
 
 .shape-btn-container-one button {
-
     font-family: 'Roboto Slab', serif;
-    font-weight: 400;
+    font-weight: 600;
     border: 2px solid#383838;
     border-radius: 10%;
     background-color: #584141;
@@ -103,17 +120,17 @@ canvas.sketch {
 .shape-btn-container-two {
     display: flex;
     flex-direction: row;
-    width: 18em;
+    width: 100%;
+    height: 12%;
     align-items: center;
     justify-content: center;
-    gap: 3%;
+    gap: 5%;
 }
 
 
 .shape-btn-container-two button {
-
     font-family: 'Roboto Slab', serif;
-    font-weight: 400;
+    font-weight: 600;
     border: 2px solid #383838;
     border-radius: 10%;
     background-color: #584141;
@@ -126,12 +143,12 @@ canvas.sketch {
 
 .toolbar-container-two {
     background-color: #eeeeee;
-    margin-left: 3em;
+    margin-left: 17%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 32%;
+    height: 35%;
     width: 90%;
     border-radius: 5%;
     box-shadow: 10px 15px 10px #331f1f;
@@ -188,12 +205,12 @@ input#colour {
     top: 15px;
 }
 
-
+/* Clear Canvas and Undo Change */
 .drawing-stuff button {
-    width: 10em;
-    height: 3em;
+    width: 90%;
+    height: 20%;
     font-family: 'Roboto Slab', serif;
-    font-weight: 400;
+    font-weight: 600;
     border: 2px solid #383838;
     border-radius: 10%;
     background-color: #584141;
@@ -209,7 +226,7 @@ input#colour {
     justify-content: center;
     width: 90%;
     height: 12%;
-    margin-left: 3em;
+    margin-left: 17%;
 }
 
 
@@ -235,6 +252,25 @@ input#colour {
 }
 
 
+div.sketch-container {
+    display: flex;
+    height: 80%;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+canvas.sketch {  
+    background-color: white;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border: 5px solid #383838;
+    z-index: 1;
+}
+
+
 .blinds-effect-container {
     position: absolute;
     right: 0%;
@@ -253,7 +289,7 @@ input#colour {
     height: 100%;
     width: 6%;
     opacity: .8;
-    box-shadow: 0px 0px 10px #000000;
+    box-shadow: 0px 2px 10px #000000;
 }
 
 
@@ -270,4 +306,19 @@ input#colour {
 img {
     height: 100%;
     width: 100%;
+}
+
+
+button:hover {
+    background-color: #ffffff;
+    color: #383838;
+    border: 4px solid #331f1f;
+}
+
+
+/* for injection with classList.add */
+button.button-toggled {
+    background-color: #ffffff;
+    color: #383838;
+    border: 4px solid #331f1f
 }

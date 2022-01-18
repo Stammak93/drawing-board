@@ -50,7 +50,6 @@ const undoDrawing = (pathArray) => {
 }
 
 
-// Is it a good idea to store every move in an array?
 const storeArray = () => {
 
     pathArray.push(colourChange.value,lineWidth.value,xyPath)
@@ -104,6 +103,7 @@ sketchboard.addEventListener("mousedown", (e) => {
     
     x = e.clientX - sketchboard.offsetLeft
     y = e.clientY - sketchboard.offsetTop
+    // width works as radius for circle
     width = parseInt(widthInput.value)
     height = parseInt(heightInput.value)
     let linew = lineWidth.value
