@@ -14,7 +14,7 @@ div.main-container {
     display: flex;
     height: 100%;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: center;
     gap: 5%;
 }
@@ -28,12 +28,13 @@ div.main-container {
     justify-content: center;
     align-items: center;
     gap: 5%;
+    z-index: 1;
 }
 
 
 .toolbar-container-one {
     background-color: #eeeeee;
-    margin-left: 17%;
+    margin-right: 17%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -41,9 +42,7 @@ div.main-container {
     height: 35%;
     width: 90%;
     border-radius: 5%;
-    box-shadow: 10px 15px 10px #331f1f;
     border: 3px solid #383838;
-    z-index: 1;
 }
 
 
@@ -106,6 +105,7 @@ div.main-container {
 
 .shape-btn-container-one button {
     font-family: 'Roboto Slab', serif;
+    font-size: 12px;
     font-weight: 600;
     border: 2px solid#383838;
     border-radius: 10%;
@@ -121,7 +121,7 @@ div.main-container {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 12%;
+    height: 14%;
     align-items: center;
     justify-content: center;
     gap: 5%;
@@ -131,6 +131,7 @@ div.main-container {
 .shape-btn-container-two button {
     font-family: 'Roboto Slab', serif;
     font-weight: 600;
+    font-size: 12px;
     border: 2px solid #383838;
     border-radius: 10%;
     background-color: #584141;
@@ -143,7 +144,7 @@ div.main-container {
 
 .toolbar-container-two {
     background-color: #eeeeee;
-    margin-left: 17%;
+    margin-right: 17%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -151,7 +152,6 @@ div.main-container {
     height: 35%;
     width: 90%;
     border-radius: 5%;
-    box-shadow: 10px 15px 10px #331f1f;
     border: 3px solid #383838;
     z-index: 1;
 }
@@ -199,10 +199,13 @@ input#colour {
 }
 
 
-.line-width-label {
-    text-align: center;
-    position: relative;
-    top: 15px;
+.lwidth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 30%;
+    width: 90%;
+    gap: 5px;
 }
 
 /* Clear Canvas and Undo Change */
@@ -226,7 +229,7 @@ input#colour {
     justify-content: center;
     width: 90%;
     height: 12%;
-    margin-left: 17%;
+    margin-right: 17%;
 }
 
 
@@ -239,7 +242,6 @@ input#colour {
     background-color: #eeeeee;
     width: 70%;
     height: 100%;
-    box-shadow: 10px 15px 10px #331f1f;
     border: 3px solid #383838;
     z-index: 1;
 }

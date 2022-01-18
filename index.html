@@ -13,6 +13,9 @@
 </head>
 <body>
     <div class="main-container">
+      <div class="sketch-container">
+        <canvas class="sketch"></canvas>
+      </div>
       <div class="toolbars">      
         <div class="toolbar-container-one">
           <div class="tools">
@@ -42,8 +45,10 @@
               <input id="colour" name="colour" type="color">
             </div>
             <div class="colouring-tools">
-              <label class="line-width-label" for="line-width">Line Thickness: </label>
-              <input id="line-width" name="line-width" type="number" value="5" max="60">
+              <div class="lwidth">
+                <label class="line-width-label" for="line-width">Line Thickness: </label>
+                <input id="line-width" name="line-width" type="number" value="5" max="60">
+              </div>
               <button id="clear-canvas">Clear Canvas</button>
               <button id="undo-change">Undo Drawing</button>
             </div>
@@ -52,9 +57,6 @@
         <div class="save-btn">
           <button id="save-as">Save Drawing</button>
         </div>
-      </div>
-      <div class="sketch-container">
-        <canvas class="sketch"></canvas>
       </div>
       <div class="blinds-effect-container">
         <div class="blind"></div>

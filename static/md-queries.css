@@ -4,8 +4,17 @@
         width: 25%;
     }
 
+    .drawing-stuff button {
+        font-size: 12px;
+    }
 
+    .tools {
+        font-size: 14px;
+    }
 
+    div.toolbar-container-one button {
+        font-size: 10px;
+    }
 }
 
 
@@ -27,9 +36,49 @@
     div.toolbars {
         width: 30%;
     }
+
+    div.toolbar-container-one, .toolbar-container-two, .save-btn {
+        margin-right: 0;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .drawing-stuff button {
+        font-size: 10px;
+    }
+
+
+    .colour-changer label[for='colour'] {
+        font-size: 16px;
+    }
+
+    .lwidth {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    input.line-width {
+        width: 5%;
+    }
+
+    .tools {
+        height: 20%;
+    }
 }
 
 
 @media (max-width: 650px) {
+    
+    /*div.toolbars {
+        transform: translateX(110%);
+    }*/
+
+    div.sketch-container {
+        justify-content: flex-start;
+        margin-left: 0;
+    }
 
 }

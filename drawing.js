@@ -97,8 +97,6 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
 })
 
 
-// Although fun, there is no way I can undo
-// all of the rainbow effect paths
 sketchboard.addEventListener("mousedown", (e) => {
     
     x = e.clientX - sketchboard.offsetLeft
