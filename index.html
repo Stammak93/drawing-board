@@ -12,22 +12,28 @@
     <title>Test</title>
 </head>
 <body>
-    <div class="main-container">
-      <div class="sketch-container">
-        <canvas class="sketch"></canvas>
-      </div>
-      <div class="toolbars">      
-        <div class="toolbar-container-one">
-          <div class="tools">
-            <label for="width-slider">Width</label>
-            <input class="tool" id="width-slider" type="range" min="5" value="50">
-            <input type="number" class="tool" id="width-value"></input>
-          </div>
-          <div class="tools">
-            <label for="height-slider">Height</label>
-            <input class="tool" id="height-slider" type="range" min="5" value="50">
-            <input type="number" class="tool" id="height-value"></input>
-          </div>
+  <div class="main-container">
+    <div class="sketch-container">
+      <div class="toggle-btns-container">
+        <button id="tl-bar-1">Toolbar 1</button>
+        <button id="tl-bar-2">Toolbar 2</button>
+        <button id="sv-btn-toggle">Save</button>
+      </div> 
+      <canvas class="sketch"></canvas>  
+    </div>
+    <div class="toolbars">  
+      <div class="toolbar-container-one">
+        <div class="tools">
+          <label for="width-slider">Width</label>
+          <input class="tool" id="width-slider" type="range" min="5" value="50">
+          <input type="number" class="tool" id="width-value"></input>
+        </div>
+        <div class="tools">
+          <label for="height-slider">Height</label>
+          <input class="tool" id="height-slider" type="range" min="5" value="50">
+          <input type="number" class="tool" id="height-value"></input>
+        </div>
+        <div class="shape-btns">
           <div class="shape-btn-container-one">
             <button class="create-square">Create Square</button>
             <button class="create-triangle">Create Triangle</button>
@@ -38,41 +44,42 @@
             <button class="undo-shape">Undo Shape</button>
           </div>
         </div>
-        <div class="toolbar-container-two">
-          <div class="drawing-stuff">
-            <div class="colour-changer">
-              <label for="colour">Choose a colour: </label>
-              <input id="colour" name="colour" type="color">
+      </div>
+      <div class="toolbar-container-two">
+        <div class="drawing-stuff">
+          <div class="colour-changer">
+            <label for="colour">Choose a colour: </label>
+            <input id="colour" name="colour" type="color">
+          </div>
+          <div class="colouring-tools">
+            <div class="lwidth">
+              <label class="line-width-label" for="line-width">Line Thickness: </label>
+              <input id="line-width" name="line-width" type="number" value="5" max="60">
             </div>
-            <div class="colouring-tools">
-              <div class="lwidth">
-                <label class="line-width-label" for="line-width">Line Thickness: </label>
-                <input id="line-width" name="line-width" type="number" value="5" max="60">
-              </div>
-              <button id="clear-canvas">Clear Canvas</button>
-              <button id="undo-change">Undo Drawing</button>
-            </div>
+            <button id="clear-canvas">Clear Canvas</button>
+            <button id="undo-change">Undo Drawing</button>
           </div>
         </div>
-        <div class="save-btn">
-          <button id="save-as">Save Drawing</button>
-        </div>
       </div>
-      <div class="blinds-effect-container">
-        <div class="blind"></div>
-        <div class="blind"></div>
-        <div class="blind"></div>
-        <div class="blind"></div>
-        <div class="blind"></div>
-        <div class="blind"></div>
-        <div class="blind"></div>
+      <div class="save-btn">
+        <button id="save-as">Save Drawing</button>
       </div>
     </div>
-    <div class="photo-container">
-      <img src="/images/style.jpg" alt="">
+    <div class="blinds-effect-container">
+      <div class="blind"></div>
+      <div class="blind"></div>
+      <div class="blind"></div>
+      <div class="blind"></div>
+      <div class="blind"></div>
+      <div class="blind"></div>
+      <div class="blind"></div>
     </div>
-    <script src="drawing.js"></script>
-    <script src="utility.js"></script>
-    <script src="shapes.js"></script>
+  </div>
+  <div class="photo-container">
+    <img src="/images/style.jpg" alt="">
+  </div>
+  <script src="drawing.js"></script>
+  <script src="utility.js"></script>
+  <script src="shapes.js"></script>
 </body>
 </html>

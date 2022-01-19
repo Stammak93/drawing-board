@@ -9,13 +9,29 @@ sketchboard.width = sketchboard.clientWidth
 sketchboard.height = sketchboard.clientHeight
 let colourChange = document.querySelector("#colour")
 let lineWidth = document.querySelector("#line-width")
-ctx.strokeStyle = document.querySelector("#colour").value // initial value on page load
-ctx.lineWidth = document.querySelector("#line-width").value // initial value on page load
+ctx.strokeStyle = colourChange.value // initial value on page load
+ctx.lineWidth = lineWidth.value // initial value on page load
 ctx.lineCap = "round"
 
 let isSketching = false
 let xyPath = []
 let pathArray = []
+
+
+window.addEventListener("resize",(e) => {
+
+    sketchboard.width = sketchboard.clientWidth
+    sketchboard.height = sketchboard.clientHeight
+    toolOneCont.classList.remove("toolbar-el-transition")
+    toolTwoCont.classList.remove("toolbar-el-transition")
+    saveBtnCont.classList.remove("toolbar-el-transition")
+    ctx.strokeStyle = colourChange.value
+    ctx.lineWidth = lineWidth.value
+    ctx.lineCap = "round"
+    drawPaths(pathArray)
+    drawShapes(shapeArray)
+})
+
 
 
 // The idea is to store arrays of paths and recreate them.
