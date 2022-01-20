@@ -11,7 +11,7 @@ const path = require("path")
 module.exports = {
     mode: projMode,
     devtool: projDevTool,
-    entry: './src/drawing.js',
+    entry: '/src/drawing.js',
     output: {
         path: path.resolve(__dirname, 'public/scripts'),
         filename: 'bundle.js'
@@ -19,7 +19,7 @@ module.exports = {
 
     module: {
         rules: [{
-            test: /\.m?js$/,
+            test: /\.js$/,
             exclude: /(node_modules)/,
             use: {
                 loader: 'babel-loader',
