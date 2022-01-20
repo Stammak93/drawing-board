@@ -25,6 +25,9 @@ window.addEventListener("resize",(e) => {
     toolOneCont.classList.remove("toolbar-el-transition")
     toolTwoCont.classList.remove("toolbar-el-transition")
     saveBtnCont.classList.remove("toolbar-el-transition")
+    toolbarOne = false
+    toolbarTwo = false
+    saveBtn = false
     ctx.strokeStyle = colourChange.value
     ctx.lineWidth = lineWidth.value
     ctx.lineCap = "round"

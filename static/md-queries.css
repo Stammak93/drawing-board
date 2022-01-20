@@ -63,7 +63,7 @@
     
     div.toolbars {
         transform: translateX(120%);
-        width: 40%;
+        width: 37%;
     }
 
     div.sketch-container {
@@ -73,10 +73,16 @@
 
     div.toggle-btns-container {
         display: flex;
+        min-height: 40px;
+        min-width: 175px;
     }
 
     .shape-btns {
         flex-direction: row;
+    }
+
+    div.toolbar-container-one, div.toolbar-container-two {
+        min-height: 225px;
     }
 
 
@@ -93,10 +99,15 @@
         gap: 10px;
     }
 
+    div.save-btn {
+        min-height: 60px;
+    }
+
     div.shape-btn-container-two button, div.shape-btn-container-one button {
         font-size: 8px;
         height: 30%;
         width: 80%;
+        flex-shrink: 0;
     }
 
     .save-btn button {
