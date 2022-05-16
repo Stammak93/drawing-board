@@ -6,7 +6,7 @@ if(process.env.NODE_ENV === "production") {
     projDevTool = undefined
 }
 
-const path = require("path")
+const path = require("path");
 
 module.exports = {
     mode: projMode,

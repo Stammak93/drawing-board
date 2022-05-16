@@ -1,20 +1,24 @@
 {
-  "name":"drawing-board",
-  "version":"1.0.0",
-  "main":"src/drawing.js",
+  "name": "drawing-board",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "start":"webpack-dev-server --open",
-    "watch":"webpack --watch",
-    "build":"set NODE_ENV=production&& webpack --mode production",
-    "build-dev":"webpack"
+    "dev": "webpack-dev-server --open",
+    "start": "node index.js",
+    "watch": "webpack --watch",
+    "build": "set NODE_ENV=production&& webpack --mode production",
+    "build-dev": "webpack"
   },
   "devDependencies": {
-    "@babel/cli":"^7.16.8",
-    "@babel/core":"^7.16.10",
-    "@babel/preset-env":"^7.16.11",
-    "babel-loader":"^8.2.3",
-    "webpack":"^5.66.0",
-    "webpack-cli":"^4.9.1",
-    "webpack-dev-server":"^4.7.3"
-    }
+    "webpack-dev-server": "^4.7.3"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "babel-loader": "^8.2.5",
+    "express": "^4.18.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
 }

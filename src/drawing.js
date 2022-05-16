@@ -1,4 +1,3 @@
-
 // global variables for drawing on canvas and tool container two
 let sketchboardContainer = document.querySelector("div.sketch-container")
 let sketchboard = document.querySelector("canvas.sketch")
@@ -375,7 +374,8 @@ window.addEventListener("resize",(e) => {
 
 
 
-// The idea is to store arrays of paths and recreate them.
+// The idea is to store arrays of paths and recreate them
+// when the user refreshes the page.
 const drawPaths = (pathArray) => {
     
     if(pathArray.length === 0) {
