@@ -110,6 +110,7 @@ canvas.sketch {
 
 .tools input[type='range']::-webkit-slider-runnable-track {
     background: #584141;
+    height: 100%;
 }
 
 
@@ -122,10 +123,10 @@ canvas.sketch {
 .tools input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #ffffff;
-    width: 15px;
-    height: 20px;
+    width: 2em;
+    height: 2em;
     border: 4px solid #584141;
-    border-radius: 50%;
+    border-radius: 30%;
 }
 
 
@@ -261,7 +262,7 @@ input#colour {
     gap: 5px;
 }
 
-/* Clear Canvas and Undo Change */
+/* Clear Canvas and Undo Change Element */
 .drawing-stuff button {
     width: 90%;
     height: 20%;
