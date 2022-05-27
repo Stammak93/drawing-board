@@ -248,6 +248,9 @@ const drawSquare = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue)
 
 const saveSquareInfoToArray = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
 
+    //xValue -= Math.floor(heightValue/2)
+    //yValue -= Math.floor(widthValue/2)
+
     shapeArray.push("square",fillShape,lineW,colour,xValue,yValue,widthValue,heightValue)
 }
 
@@ -457,7 +460,7 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
 
 
 sketchboard.addEventListener("mousedown", (e) => {
-    
+
     x = e.clientX - sketchboard.offsetLeft
     y = e.clientY - sketchboard.offsetTop
     // width works as radius for circle
@@ -468,6 +471,8 @@ sketchboard.addEventListener("mousedown", (e) => {
       
     if (squareCreation) {
         isSketching = false
+        x -= Math.floor(width/2)
+        y -= Math.floor(height/2) 
         drawSquare(fillShape,linew,colour,x,y,width,height)
         saveSquareInfoToArray(fillShape,linew,colour,x,y,width,height)
     
@@ -478,6 +483,7 @@ sketchboard.addEventListener("mousedown", (e) => {
     
     } else if (triangleCreation) {
         isSketching = false
+        y -= Math.floor(height/2)
         drawTriangle(fillShape,linew,colour,x,y,width,height)
         saveTriangleInfoToArray(fillShape,linew,colour,x,y,width,height)
     
