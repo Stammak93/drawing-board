@@ -88,8 +88,41 @@ const sketching = (e) => {
 sketchboard.addEventListener("mousemove", sketching)
 
 
-// Shape Creation Buttons
+// The idea is to store arrays of paths and recreate them
+// when the user refreshes the page.
+const drawPaths = (pathArray) => {
+    
+    if(pathArray.length === 0) {
+        return;
+    }
+    
+    for (let i=0; i < pathArray.length; i += 3) {
+        
+        ctx.beginPath()
+        ctx.strokeStyle = pathArray[i]
+        ctx.lineWidth = pathArray[i+1]
+        
+        for(let j=0; j < pathArray[i+2].length; j += 2) {
+            ctx.lineTo(pathArray[i+2][j], pathArray[i+2][j+1])
+            ctx.stroke()
+        }
+    }
+}
 
+
+// undo step by step
+const undoDrawing = (pathArray) => {
+
+    if(pathArray.length === 0) {
+        return;
+    }
+    
+    ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
+    pathArray.splice(pathArray.length-3,3)
+}
+
+
+// Shape Creation Buttons
 const buttonPressedHighlight = () => {
     
     if(squareCreation) {
@@ -113,7 +146,6 @@ const buttonPressedHighlight = () => {
 
 
 // Input Listener Functions
-
 const widthInputFunction = () => {
 
     if (widthInput.value > parseInt(widthSlider.max)) {
@@ -124,7 +156,6 @@ const widthInputFunction = () => {
     }
 
     widthSlider.value = widthInput.value
-    takeMeasurements()
 }
 
 
@@ -153,8 +184,13 @@ const heightSliderFunction = () => {
 }
 
 
-// toolbars that appear on smaller viewports
+widthSlider.addEventListener("change",widthSliderFunction)
+heightSlider.addEventListener("change",heightSliderFunction)
+widthInput.addEventListener("change", widthInputFunction)
+heightInput.addEventListener("change", heightInputFunction)
 
+
+// toolbars that appear on smaller viewports
 const toggleFunction = () => {
 
     if(toolbarOne) {
@@ -195,39 +231,6 @@ window.addEventListener("resize",(e) => {
 })
 
 
-
-// The idea is to store arrays of paths and recreate them
-// when the user refreshes the page.
-const drawPaths = (pathArray) => {
-    
-    if(pathArray.length === 0) {
-        return;
-    }
-    
-    for (let i=0; i < pathArray.length; i += 3) {
-        
-        ctx.beginPath()
-        ctx.strokeStyle = pathArray[i]
-        ctx.lineWidth = pathArray[i+1]
-        
-        for(let j=0; j < pathArray[i+2].length; j += 2) {
-            ctx.lineTo(pathArray[i+2][j], pathArray[i+2][j+1])
-            ctx.stroke()
-        }
-    }
-}
-
-// undo step by step
-const undoDrawing = (pathArray) => {
-
-    if(pathArray.length === 0) {
-        return;
-    }
-    
-    ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
-    pathArray.splice(pathArray.length-3,3)
-}
-
 // store array to be accessed in steps
 // every time you let go of mouse button
 // an array is stored inside a bigger array
@@ -235,6 +238,7 @@ const storeArray = () => {
 
     pathArray.push(colourChange.value,lineWidth.value,xyPath)
     xyPath = []
+    // console.log(new Blob([JSON.stringify(pathArray)]).size) // to check size of array in bytes
 }
 
 
@@ -359,15 +363,10 @@ createSquareButton.addEventListener("click", (e) => {
         disableInputs()
         buttonPressedHighlight()
     
-    } else if(!squareCreation && circleCreation || triangleCreation) {
+    } else {
         disableInputs()
         circleCreation = false
         triangleCreation = false
-        squareCreation = true
-        shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
-        buttonPressedHighlight()
-    
-    } else {
         squareCreation = true
         shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
         buttonPressedHighlight()
@@ -382,16 +381,11 @@ createCircleButton.addEventListener("click",(e) => {
         circleCreation = false
         disableInputs()
         buttonPressedHighlight()
-    
-    } else if (!circleCreation && squareCreation || triangleCreation) {
+
+    } else {
         disableInputs()
         squareCreation = false
         triangleCreation = false
-        circleCreation = true
-        shapes.enableCircleInputs(circleCreation)
-        buttonPressedHighlight()
-
-    } else {
         circleCreation = true
         shapes.enableCircleInputs(circleCreation)
         buttonPressedHighlight()
@@ -406,27 +400,15 @@ createTriangleButton.addEventListener("click", (e) => {
         disableInputs()
         buttonPressedHighlight()
     
-    } else if (!triangleCreation && circleCreation || squareCreation) {
+    } else {
         disableInputs()
         circleCreation = false
         squareCreation = false
         triangleCreation = true
         shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
         buttonPressedHighlight()
-    
-    } else {
-        triangleCreation = true
-        shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
-        buttonPressedHighlight()
     }
 })
-
-
-widthSlider.addEventListener("change",widthSliderFunction)
-heightSlider.addEventListener("change",heightSliderFunction)
-widthInput.addEventListener("change", widthInputFunction)
-heightInput.addEventListener("change", heightInputFunction)
-
 
 
 document.querySelector("button#save-as").addEventListener("click", (e) => {
@@ -441,12 +423,10 @@ toggleOne.addEventListener("click",(e) => {
     if(toolbarOne) {
         toolbarOne = false
         toggleFunction()
-    } else if (!toolbarOne && toolbarTwo || saveBtn) {
-        toolbarOne = true
+
+    } else {
         toolbarTwo = false
         saveBtn = false
-        toggleFunction()
-    } else {
         toolbarOne = true
         toggleFunction()
     }
@@ -458,12 +438,10 @@ toggleTwo.addEventListener("click",(e) => {
     if(toolbarTwo) {
         toolbarTwo = false
         toggleFunction()
-    } else if (!toolbarTwo && toolbarOne || saveBtn) {
-        toolbarOne = false
-        toolbarTwo = true
-        saveBtn = false
-        toggleFunction()
+
     } else {
+        toolbarOne = false
+        saveBtn = false
         toolbarTwo = true
         toggleFunction()
     }
@@ -475,12 +453,10 @@ toggleSave.addEventListener("click",(e) => {
     if(saveBtn) {
         saveBtn = false
         toggleFunction()
-    } else if (!saveBtn && toolbarOne || toolbarTwo) {
+
+    } else {
         toolbarOne = false
         toolbarTwo = false
-        saveBtn = true
-        toggleFunction()
-    } else {
         saveBtn = true
         toggleFunction()
     }
