@@ -1,5 +1,7 @@
+import { disableInputs, downloadCanvasImage } from "./utility";
+import * as shapes from "./shapes";
+
 // global variables for drawing on canvas and tool container two
-let sketchboardContainer = document.querySelector("div.sketch-container")
 let sketchboard = document.querySelector("canvas.sketch")
 let ctx = sketchboard.getContext("2d")
 
@@ -16,7 +18,6 @@ let xyPath = []
 let pathArray = []
 
 // global variables for the shapes functions, tool container one and event listeners
-let shapesContainer = document.querySelector("div.shapes-container")
 let heightSlider = document.querySelector("input#height-slider")
 let widthSlider = document.querySelector("input#width-slider")
 let heightInput = document.querySelector("input#height-value")
@@ -34,11 +35,11 @@ widthInput.value = widthSlider.value
 heightInput.value = heightSlider.value
 
 
-squareCreation = false
-circleCreation = false
-triangleCreation = false
-fillShape = "no-fill"
-shapeArray = []
+let squareCreation = false
+let circleCreation = false
+let triangleCreation = false
+let fillShape = "no-fill"
+let shapeArray = []
 
 let x;
 let y;
@@ -55,6 +56,9 @@ const toggleSave = document.querySelector("#sv-btn-toggle")
 const toolOneCont = document.querySelector(".toolbar-container-one")
 const toolTwoCont = document.querySelector(".toolbar-container-two")
 const saveBtnCont = document.querySelector(".save-btn")
+
+// call to set initial page input state
+disableInputs()
 
 
 // used on mousemove event listener
@@ -81,178 +85,7 @@ const sketching = (e) => {
 }
 
 
-const disableInputs = () => {
-
-    let inputs = document.querySelectorAll(".tool")
-      
-    inputs.forEach((input) => { 
-        input.disabled = true
-    })
-}
-
-
-const resetInputs = () => {
-
-    let inputs = document.querySelectorAll(".tool")
-
-    inputs.forEach((input) => {
-
-        input.value = 50
-    })
-}
-
-
-const enableSquareTriangleInputs = () => {
-    
-    let inputs = document.querySelectorAll(".tool")
-    
-    if (squareCreation || triangleCreation) {
-        
-        document.querySelector("label[for='width-slider']").textContent = "Width"
-        
-        inputs.forEach((input) => {
-            input.disabled = false
-        })
-
-    }
-}
-
-
-const enableCircleInputs = () => {
-
-    let inputs = document.querySelectorAll(".tool")
-    
-    if (circleCreation) {
-        document.querySelector("label[for='width-slider']").textContent = "Radius"
-        
-        for(let i=0; i < 2; i++) {
-            inputs[i].disabled = false
-        }
-    }
-}
-
-
-const drawShapes = (shapeArray) => {
-
-    for (let i=0; i < shapeArray.length; i+=8) {
-
-        if(shapeArray[i] === "square") {
-            drawSquare(shapeArray[i+1],shapeArray[i+2],shapeArray[i+3],shapeArray[i+4],
-                shapeArray[i+5],shapeArray[i+6],shapeArray[i+7])            
-        
-        } else if (shapeArray[i] === "circle") {
-
-            drawCircle(shapeArray[i+1],shapeArray[i+2],shapeArray[i+3],shapeArray[i+4],
-                shapeArray[i+5],shapeArray[i+6],shapeArray[i+7])
-
-        } else {
-            drawTriangle(shapeArray[i+1],shapeArray[i+2],shapeArray[i+3],shapeArray[i+4],
-                shapeArray[i+5],shapeArray[i+6],shapeArray[i+7])
-        }
-    }
-
-}
-
-
-const undoShapes = () => {
-
-    if(shapeArray.length === 0) {
-        return;
-    }
-
-    ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
-    shapeArray.splice(shapeArray.length-8,8)
-}
-
-
-// Triangle Related stuff
-
-const drawTriangle = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
-
-    ctx.lineWidth = lineW
-
-    let triangleWidth = Math.floor(widthValue/2)
-    
-    if(fillShape === "fill") {
-        ctx.fillStyle = colour
-        ctx.beginPath()
-        ctx.moveTo(xValue,yValue)
-        ctx.lineTo(xValue-triangleWidth, yValue+heightValue)
-        ctx.lineTo(xValue+triangleWidth, yValue+heightValue)
-        ctx.fill()
-
-    } else {
-        ctx.strokeStyle = colour
-        ctx.beginPath()
-        ctx.moveTo(xValue,yValue)
-        ctx.lineTo(xValue-triangleWidth, yValue+heightValue)
-        ctx.lineTo(xValue+triangleWidth, yValue+heightValue)
-        ctx.closePath()
-        ctx.stroke()
-    }
-}
-
-
-const saveTriangleInfoToArray = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
-
-    shapeArray.push("triangle",fillShape,lineW,colour,xValue,yValue,widthValue,heightValue)
-}
-
-
-// Circle Related Stuff
-
-const drawCircle = (fillShape,lineW,colour,xValue,yValue,radiusValue,sAngle=0) => {
-
-    ctx.lineWidth = lineW
-    
-    if (fillShape === "fill") {
-        ctx.fillStyle = colour
-        ctx.beginPath()
-        ctx.arc(xValue,yValue,radiusValue,sAngle,Math.PI*2)
-        ctx.fill()
-        ctx.stroke()
-    
-    } else {
-        ctx.strokeStyle = colour
-        ctx.beginPath()
-        ctx.arc(xValue,yValue,radiusValue,sAngle,Math.PI*2)
-        ctx.stroke()
-    }
-}
-
-
-const saveCircleInfoToArray = (fillShape,lineW,colour,xValue,yValue,radiusValue,sAngle=0) => {
-
-    shapeArray.push("circle",fillShape,lineW,colour,xValue,yValue,radiusValue,sAngle=0)
-}
-
-
-// Square Related Stuff
-
-const drawSquare = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
-
-    ctx.lineWidth = lineW
-    
-    if(fillShape === "fill") {
-        ctx.fillStyle = colour
-        ctx.beginPath()
-        ctx.fillRect(xValue,yValue,widthValue,heightValue)
-    
-    } else {
-        ctx.strokeStyle = colour
-        ctx.beginPath()
-        ctx.strokeRect(xValue,yValue,widthValue,heightValue)
-    }
-}
-
-
-const saveSquareInfoToArray = (fillShape,lineW,colour,xValue,yValue,widthValue,heightValue) => {
-
-    //xValue -= Math.floor(heightValue/2)
-    //yValue -= Math.floor(widthValue/2)
-
-    shapeArray.push("square",fillShape,lineW,colour,xValue,yValue,widthValue,heightValue)
-}
+sketchboard.addEventListener("mousemove", sketching)
 
 
 // Shape Creation Buttons
@@ -320,17 +153,7 @@ const heightSliderFunction = () => {
 }
 
 
-
-// Save function
-
-const downloadCanvasImage = (data, filename="untitled.png") => {
-    let aTag = document.createElement("a")
-    aTag.href = data
-    aTag.download = filename
-    document.body.appendChild(aTag)
-    aTag.click()
-}
-
+// toolbars that appear on smaller viewports
 
 const toggleFunction = () => {
 
@@ -354,10 +177,6 @@ const toggleFunction = () => {
 }
 
 
-// Call to set initial page condition
-disableInputs()
-
-
 window.addEventListener("resize",(e) => {
 
     sketchboard.width = sketchboard.clientWidth
@@ -372,7 +191,7 @@ window.addEventListener("resize",(e) => {
     ctx.lineWidth = lineWidth.value
     ctx.lineCap = "round"
     drawPaths(pathArray)
-    drawShapes(shapeArray)
+    shapes.drawShapes(shapeArray,ctx)
 })
 
 
@@ -453,12 +272,18 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
 
     undoDrawing(pathArray)
     drawPaths(pathArray)
-    drawShapes(shapeArray)
+    
+    shapes.undoShapes(ctx, shapeArray, sketchboard)
+    shapeArray.splice(shapeArray.length-8,8)
+    shapes.drawShapes(shapeArray,ctx)
+    
     ctx.strokeStyle = colourChange.value
     ctx.lineWidth = lineWidth.value
 })
 
-
+// calculations to draw shapes on canvas as accurately as possible
+// the aim is for the shape to be drawn with its centre as close to
+// to the location of the mouse click as possible
 sketchboard.addEventListener("mousedown", (e) => {
 
     x = e.clientX - sketchboard.offsetLeft
@@ -473,19 +298,19 @@ sketchboard.addEventListener("mousedown", (e) => {
         isSketching = false
         x -= Math.floor(width/2)
         y -= Math.floor(height/2) 
-        drawSquare(fillShape,linew,colour,x,y,width,height)
-        saveSquareInfoToArray(fillShape,linew,colour,x,y,width,height)
+        shapes.drawSquare(fillShape,linew,colour,x,y,width,height,ctx)
+        shapeArray = shapeArray.concat(["square",fillShape,linew,colour,x,y,width,height])
     
     } else if (circleCreation) {
         isSketching = false
-        drawCircle(fillShape,linew,colour,x,y,width,0)
-        saveCircleInfoToArray(fillShape,linew,colour,x,y,width,0)
+        shapes.drawCircle(fillShape,linew,colour,x,y,width,0,ctx)
+        shapeArray = shapeArray.concat(["circle",fillShape,linew,colour,x,y,width,0])
     
     } else if (triangleCreation) {
         isSketching = false
         y -= Math.floor(height/2)
-        drawTriangle(fillShape,linew,colour,x,y,width,height)
-        saveTriangleInfoToArray(fillShape,linew,colour,x,y,width,height)
+        shapes.drawTriangle(fillShape,linew,colour,x,y,width,height,ctx)
+        shapeArray = shapeArray.concat(["triangle",fillShape,linew,colour,x,y,width,height])
     
     } else {
         isSketching = true
@@ -506,14 +331,11 @@ sketchboard.addEventListener("mouseup", (e) => {
 })
 
 
-sketchboard.addEventListener("mousemove", sketching)
-
-
 undoShapeButton.addEventListener("click",(e) => {
 
-    undoShapes(shapeArray)
+    shapes.undoShapes(ctx,shapeArray,sketchboard)
     drawPaths(pathArray)
-    drawShapes(shapeArray)
+    shapes.drawShapes(shapeArray,ctx)
 })
 
 
@@ -522,6 +344,7 @@ shapeFillButton.addEventListener("click",(e) => {
     if(fillShape === "no-fill") {
         fillShape = "fill"
         e.target.classList.add("button-toggled")
+    
     } else {
         fillShape = "no-fill"
         e.target.classList.remove("button-toggled")
@@ -535,16 +358,18 @@ createSquareButton.addEventListener("click", (e) => {
         squareCreation = false
         disableInputs()
         buttonPressedHighlight()
+    
     } else if(!squareCreation && circleCreation || triangleCreation) {
         disableInputs()
         circleCreation = false
         triangleCreation = false
         squareCreation = true
-        enableSquareTriangleInputs()
+        shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
         buttonPressedHighlight()
+    
     } else {
         squareCreation = true
-        enableSquareTriangleInputs()
+        shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
         buttonPressedHighlight()
     }
 
@@ -557,16 +382,18 @@ createCircleButton.addEventListener("click",(e) => {
         circleCreation = false
         disableInputs()
         buttonPressedHighlight()
+    
     } else if (!circleCreation && squareCreation || triangleCreation) {
         disableInputs()
         squareCreation = false
         triangleCreation = false
         circleCreation = true
-        enableCircleInputs()
+        shapes.enableCircleInputs(circleCreation)
         buttonPressedHighlight()
+
     } else {
         circleCreation = true
-        enableCircleInputs()
+        shapes.enableCircleInputs(circleCreation)
         buttonPressedHighlight()
     }
 })
@@ -578,16 +405,18 @@ createTriangleButton.addEventListener("click", (e) => {
         triangleCreation = false
         disableInputs()
         buttonPressedHighlight()
+    
     } else if (!triangleCreation && circleCreation || squareCreation) {
         disableInputs()
         circleCreation = false
         squareCreation = false
         triangleCreation = true
-        enableSquareTriangleInputs()
+        shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
         buttonPressedHighlight()
+    
     } else {
         triangleCreation = true
-        enableSquareTriangleInputs()
+        shapes.enableSquareTriangleInputs(squareCreation, triangleCreation)
         buttonPressedHighlight()
     }
 })
