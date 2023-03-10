@@ -95,14 +95,16 @@ const drawPaths = (pathArray) => {
     if(pathArray.length === 0) {
         return;
     }
-    
-    for (let i=0; i < pathArray.length; i += 3) {
+    let lengthOfPathArrayData = pathArray.length;
+
+    for (let i=0; i < lengthOfPathArrayData; i += 3) {
         
         ctx.beginPath()
         ctx.strokeStyle = pathArray[i]
         ctx.lineWidth = pathArray[i+1]
-        
-        for(let j=0; j < pathArray[i+2].length; j += 2) {
+        let lengthOfPath = pathArray[i+2].length;
+
+        for(let j=0; j < lengthOfPath; j += 2) {
             ctx.lineTo(pathArray[i+2][j], pathArray[i+2][j+1])
             ctx.stroke()
         }
@@ -276,9 +278,8 @@ document.querySelector("#undo-change").addEventListener("click", (e) => {
 
     undoDrawing(pathArray)
     drawPaths(pathArray)
-    
-    shapes.undoShapes(ctx, shapeArray, sketchboard)
-    shapeArray.splice(shapeArray.length-8,8)
+
+    //shapes.undoShapes(ctx, shapeArray, sketchboard)
     shapes.drawShapes(shapeArray,ctx)
     
     ctx.strokeStyle = colourChange.value

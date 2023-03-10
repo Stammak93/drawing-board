@@ -57,7 +57,8 @@ const undoShapes = (ctx, shapeArray, sketchboard) => {
         return;
     }
 
-    ctx.clearRect(0,0,sketchboard.width,sketchboard.height)
+    ctx.clearRect(0,0,sketchboard.width,sketchboard.height);
+    shapeArray.splice(shapeArray.length - 8, 8);
 }
 
 
